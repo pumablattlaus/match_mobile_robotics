@@ -3,6 +3,8 @@ project(mir_navigation)
 
 find_package(catkin REQUIRED COMPONENTS
   roslaunch
+  rospy
+  sensor_msgs
 )
 
 ###################################
@@ -28,6 +30,7 @@ catkin_package()
 
 catkin_install_python(PROGRAMS 
   nodes/move_base_simple_relay.py
+  nodes/scan_helper.py
   nodes/acc_finder.py
   nodes/min_max_finder.py
   scripts/plot_mprim.py

@@ -32,13 +32,13 @@
 	<node name="controller_spawner" pkg="controller_manager" type="spawner" output="screen"
 		args="joint_state_controller mobile_base_controller">
 	</node>
-
+<!-- 
 	<include file="$(find mir_navigation)/launch/amcl.launch">
 		<arg name="tf_prefix" value="$(arg tf_prefix)"/>
 		<arg name="initial_pose_x"  value="$(arg robot_x)"/>
 		<arg name="initial_pose_y"  value="$(arg robot_y)"/>
 		<arg name="initial_pose_a"  value="$(arg robot_yaw)"/>
-	</include>
+	</include> -->
 	
 	<!-- Start of move base or move base flex -->
 	<group if="$(eval move_base_selector=='move_base')">
@@ -81,4 +81,15 @@
 		<remap from="scan_filtered" to="f_scan_rep117" />
 	</node>
 
+	<node name="f_timed_laser_helper" pkg="mir_navigation" type="scan_time_helper.py" output="screen">
+		<param name="input_scan_topic" value="/f_scan"/>
+		<param name="output_scan_topic" value="/f_timed_scan"/>
+		<param name="scan_frequency" value="12.5"/>
+	</node>
+
+	<node name="b_timed_laser_helper" pkg="mir_navigation" type="scan_time_helper.py" output="screen">
+		<param name="input_scan_topic" value="/b_scan"/>
+		<param name="output_scan_topic" value="/b_timed_scan"/>
+		<param name="scan_frequency" value="12.5"/>
+	</node>
 </launch>

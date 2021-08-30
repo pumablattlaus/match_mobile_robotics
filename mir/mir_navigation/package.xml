@@ -40,5 +40,6 @@
   <!-- <exec_depend>mirLocalPlanner</exec_depend> -->
   <exec_depend>pose_follower</exec_depend>
   <exec_depend>teb_local_planner</exec_depend>
+  <depend>sensor_msgs</depend>
   <!-- <exec_depend>teb_local_planner</exec_depend> -->
 </package>
