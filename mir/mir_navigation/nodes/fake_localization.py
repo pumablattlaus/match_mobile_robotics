@@ -34,14 +34,14 @@ class FakeLocalization():
                             (msg.pose.pose.orientation.x,msg.pose.pose.orientation.y,msg.pose.pose.orientation.z,msg.pose.pose.orientation.w),
                             t,
                             self.tf_prefix_slashed +  self.frame_id,
-                            "map")
+                            self.tf_prefix_slashed + "odom")
         else:
             self.redundant_timestamp_index += 1
             br.sendTransform((msg.pose.pose.position.x,msg.pose.pose.position.y,0), # publish the footprint of the robot
                             (msg.pose.pose.orientation.x,msg.pose.pose.orientation.y,msg.pose.pose.orientation.z,msg.pose.pose.orientation.w),
                             t + rospy.Duration(0.0001)*self.redundant_timestamp_index, # avoid redundant timestamp
                             self.tf_prefix_slashed  + self.frame_id,
-                            "map")
+                            self.tf_prefix_slashed + "odom")
         self.time_stamp_old = t
 
 if __name__ == '__main__':

@@ -34,9 +34,24 @@
 	<arg if="$(eval fake_localization)" name="frame_id" value="base_footprint" />
 	<arg unless="$(eval fake_localization)" name="frame_id" value="ground_truth" /> 
 
-	<!-- Start the controllers -->
+	<!-- load controller params -->
 	<rosparam file="$(find mir_launch_sim)/config/gazebo_joint_state_controller.yaml" command="load"/>
 	<rosparam file="$(find mir_launch_sim)/config/gazebo_diffdrive_controller.yaml" command="load" subst_value="true"/>
+
+	<!-- ground truth as a reference or fake localization -->
+	<group if="$(eval fake_localization)">
+		<!-- perfect odom is provided by ground_truth so no need for amcl to correct anything -->
+		<node pkg="tf2_ros" type="static_transform_publisher" name="fake_amcl" args="0.0 0.0 0.0 0.0 0.0 0.0 1.0  map $(arg tf_prefix_slashed)odom" />
+		<node name="fake_localization" pkg="mir_navigation" type="fake_localization.py" output="screen"   >
+			<param name="tf_prefix_slashed" value="$(arg tf_prefix_slashed)"/>
+			<param name="global_frame_id" value="map"/>
+			<param name="frame_id" value="$(arg frame_id)"/>
+		</node>
+		<!-- disable odom tf from diffdrive controller -->
+		<param name="mobile_base_controller/enable_odom_tf" value="false" />  
+	</group>
+	
+	<!-- Start the controllers -->
 	<node name="controller_spawner" pkg="controller_manager" type="spawner" output="screen"
 		args="joint_state_controller mobile_base_controller">
 	</node>
@@ -72,14 +87,7 @@
 		<param name="tf_prefix" value="$(arg tf_prefix)"/>
 	</node>
 
-	<!-- ground truth as a reference or fake localization -->
-	<group if="$(eval fake_localization)">
-		<node name="fake_localization" pkg="mir_navigation" type="fake_localization.py" output="screen"   >
-			<param name="tf_prefix_slashed" value="$(arg tf_prefix_slashed)"/>
-			<param name="global_frame_id" value="map"/>
-			<param name="frame_id" value="$(arg frame_id)"/>
-		</node>
-	</group>
+
 
 
 
