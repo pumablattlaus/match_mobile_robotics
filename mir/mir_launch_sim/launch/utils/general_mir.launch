@@ -6,6 +6,7 @@
 	<arg name="robot_yaw" default="0.0" />  
 	<arg name="model_name" default=""/>
     <arg name="robot_urdf_path" />
+	<arg name="fake_localization" default="true" />
 
 	<arg name="move_base_selector" doc="move_base or move_base_flex"/>
 	<arg name="global_planner" doc="Name of the global planner that should be used by the navigation stack" />
@@ -13,6 +14,7 @@
 	<arg name="local_planner" doc="Name of the local planner that should be used by the navigation stack"/>
 	<arg name="local_planner_config" doc="Path to the local config file." />
 	<arg name="add_spawn_args" default="" doc="spawn positions" />
+
 
 	<!-- The model name of the robot_description cannot be empty when using no namespace. So use a default model name instead-->
 	<arg if="$(eval model_name=='')" name="robot_description_model_name" value="mir" />
@@ -29,20 +31,41 @@
 		-x $(arg robot_x) -y $(arg robot_y) -Y $(arg robot_yaw) $(arg add_spawn_args)"/>
 
 	
-	<!-- Start the controllers -->
+	<!-- Set frame_id depending on the type of localization that should be used -->	
+	<arg if="$(eval fake_localization)" name="frame_id" value="base_footprint" />
+	<arg unless="$(eval fake_localization)" name="frame_id" value="ground_truth" /> 
+
+	<!-- load controller params -->
 	<rosparam file="$(find mir_launch_sim)/config/gazebo_joint_state_controller.yaml" command="load"/>
 	<rosparam file="$(find mir_launch_sim)/config/gazebo_diffdrive_controller.yaml" command="load" subst_value="true"/>
+
+	<!-- ground truth as a reference or fake localization -->
+	<group if="$(eval fake_localization)">
+		<!-- perfect odom is provided by ground_truth so no need for amcl to correct anything -->
+		<node pkg="tf2_ros" type="static_transform_publisher" name="fake_amcl" args="0.0 0.0 0.0 0.0 0.0 0.0 1.0  map $(arg tf_prefix_slashed)odom" />
+		<node name="fake_localization" pkg="mir_navigation" type="fake_localization.py" output="screen"   >
+			<param name="tf_prefix_slashed" value="$(arg tf_prefix_slashed)"/>
+			<param name="global_frame_id" value="map"/>
+			<param name="frame_id" value="$(arg frame_id)"/>
+		</node>
+		<!-- disable odom tf from diffdrive controller -->
+		<param name="mobile_base_controller/enable_odom_tf" value="false" />  
+	</group>
+	
+	<!-- Start the controllers -->
 	<node name="controller_spawner" pkg="controller_manager" type="spawner" output="screen"
 		args="joint_state_controller mobile_base_controller">
 	</node>
 
-	<include file="$(find mir_navigation)/launch/amcl.launch">
-		<arg name="tf_prefix" value="$(arg tf_prefix)"/>
-		<arg name="initial_pose_x"  value="$(arg robot_x)"/>
-		<arg name="initial_pose_y"  value="$(arg robot_y)"/>
-		<arg name="initial_pose_a"  value="$(arg robot_yaw)"/>
-	</include>
-	
+	<group unless="$(eval fake_localization)">
+		<include file="$(find mir_navigation)/launch/amcl.launch">
+			<arg name="tf_prefix" value="$(arg tf_prefix)"/>
+			<arg name="initial_pose_x"  value="$(arg robot_x)"/>
+			<arg name="initial_pose_y"  value="$(arg robot_y)"/>
+			<arg name="initial_pose_a"  value="$(arg robot_yaw)"/>
+		</include>
+	</group>
+
 	<!-- Start of move base or move base flex -->
 	<group if="$(eval move_base_selector=='move_base')">
 		<include file="$(find mir_navigation)/launch/move_base.launch" pass_all_args="true">
@@ -64,6 +87,10 @@
 	<node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" output="screen">
 		<param name="tf_prefix" value="$(arg tf_prefix)"/>
 	</node>
+
+
+
+
 
 	<!-- Add passive + mimic joints to joint_states topic -->
 	<node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher">
