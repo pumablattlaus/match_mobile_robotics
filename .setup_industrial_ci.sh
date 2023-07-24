@@ -1,4 +1,5 @@
 # sudo apt-get -qq install -y git
+git config --global --add safe.directory /home/runner/work/match_mobile_robotics/match_mobile_robotics
 git submodule update --init --recursive
 cd submodules/match_path_planning/splined_voronoi/nlopt/
 cmake .
