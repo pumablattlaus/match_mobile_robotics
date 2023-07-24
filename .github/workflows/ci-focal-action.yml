@@ -42,7 +42,7 @@ jobs:
         env: # either pass all entries explicitly
           ROS_DISTRO: ${{ matrix.ROS_DISTRO }}
           ROS_REPO: ${{ matrix.ROS_REPO }}
-          AFTER_SETUP_TARGET_WORKSPACE: "sudo apt-get -qq install -y git --no-upgrade --no-install-recommends | grep -E 'Setting up' && bash .setup_industrial_ci.sh"
+          # AFTER_SETUP_TARGET_WORKSPACE: "sudo apt-get -qq install -y git --no-upgrade --no-install-recommends | grep -E 'Setting up' && bash .setup_industrial_ci.sh"
           # BEFORE_INSTALL_TARGET_DEPENDENCIES: "bash .setup_industrial_ci.sh"
         # with: # or pass the full matrix as config
         #    config: ${{toJSON(matrix)}}
