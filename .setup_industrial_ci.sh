@@ -1,5 +1,4 @@
-sudo apt install git
-git submodule update --init --recursive
+/usr/bin/git submodule update --init --recursive
 cd submodules/match_path_planning/splined_voronoi/nlopt/
 cmake .
 make
