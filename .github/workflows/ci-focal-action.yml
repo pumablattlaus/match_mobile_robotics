@@ -5,7 +5,7 @@ name: CI - Ubuntu Focal
 
 on: # this determines when this workflow is run
   push:
-    branches: [ noetic-devel ]
+    # branches: [ noetic-devel ]
   pull_request:
   #   branches: [ master ] # when there is a pull request against master
   # schedule: # uncomment to run periodically
@@ -42,5 +42,6 @@ jobs:
         env: # either pass all entries explicitly
           ROS_DISTRO: ${{ matrix.ROS_DISTRO }}
           ROS_REPO: ${{ matrix.ROS_REPO }}
+          BEFORE_INSTALL_TARGET_DEPENDENCIES: "ls -la"
         # with: # or pass the full matrix as config
         #    config: ${{toJSON(matrix)}}
