@@ -2,15 +2,6 @@
 git config --global --add safe.directory /home/runner/work/match_mobile_robotics/match_mobile_robotics
 git submodule update --init --recursive
 
-ls -al
-cd submodules
-ls
-cd match_path_planning
-ls
-cd splined_voronoi
-ls
-cd /home/runner/work/match_mobile_robotics/match_mobile_robotics
-
 cd submodules/match_path_planning/splined_voronoi/nlopt/
 cmake .
 make
