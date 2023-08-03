@@ -21,7 +21,9 @@ jobs:
         path: src/match_mobile_robotics
     - name: install remaining dependencies
       run: |
+        cd src/match_mobile_robotics
         bash setup_github.sh
+        cd ../..
         sudo rosdep init
         rosdep update
         rosdep install --from-paths src -i -y --rosdistro ${{ matrix.rosdistro }}
