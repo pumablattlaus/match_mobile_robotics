@@ -1,0 +1,6 @@
+<launch>
+	<include file="$(find mur_examples)/launch/single_mur_205.launch"/>
+
+	<param name="test_link_child" type="string" value="/mur205/odom" />
+	<test test-name="mur_examples_tf" pkg="match_test" type="test_tf.py"/>
+</launch>

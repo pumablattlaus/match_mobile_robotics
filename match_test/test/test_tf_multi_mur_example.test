@@ -1,0 +1,4 @@
+<launch>
+	<include file="$(find mur_examples)/launch/multi_mur_205.launch"/>
+	<test test-name="mur_examples_tf" pkg="match_test" type="test_tf.py" />
+</launch>
