@@ -9,8 +9,8 @@ class UR_enable():
     
     
     def __init__(self):
-        self.ur_hardware_interface_topic = rospy.get_param('~ur_hardware_interface_topic', 'mur620d/UR10_l/ur_hardware_interface')
-    
+        self.ur_hardware_interface_topic = rospy.get_param('~ur_hardware_interface_topic', 'mur620a/UR10_l/ur_hardware_interface')
+
     def main(self):
         rospy.init_node('UR_enable')
         # first stop the dashboard server
@@ -38,6 +38,9 @@ class UR_enable():
         # wait for the action server to finish
         client.wait_for_result()
         rospy.loginfo("Robot enabled")
+
+        # shutdown the node
+        rospy.signal_shutdown("Robot enabled")
     
 if __name__ == '__main__':
     rospy.init_node('UR_enable')
