@@ -33,8 +33,9 @@ Browse into `your_catkin_ws_name/src/Match_Mobile_Robotics` and execute
 ```
 ./setup_full.sh
 ```
-
-Alternatively run the setup step-by-step:
+\
+\
+**Alternatively** run the setup step-by-step:
 #### Install dependencies
 Browse into `your_catkin_ws_name/src/Match_Mobile_Robotics` and execute
 ```
