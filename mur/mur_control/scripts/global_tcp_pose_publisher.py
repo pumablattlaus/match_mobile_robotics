@@ -13,6 +13,7 @@ class GlobalTCPPosePublisher():
         self.UR_base_link_name = rospy.get_param('~UR_base_link_name', 'mur620a/UR10_l/base_link_inertia')
         self.base_frame = rospy.get_param('~base_frame', 'map')
         self.local_TCP_pose_topic = rospy.get_param('~local_TCP_pose_topic', '/mur620a/UR10_l/ur_calibrated_pose')
+        self.static_mode = rospy.get_param('~static_mode', True)
 
         self.local_TCP_pose = Pose()
 
@@ -39,7 +40,8 @@ class GlobalTCPPosePublisher():
         while not rospy.is_shutdown():
             try:
                 # get transform between map and UR base link
-                trans, rot = tf_listener.lookupTransform(self.base_frame, self.UR_base_link_name, rospy.Time(0))
+                if not self.static_mode:
+                    trans, rot = tf_listener.lookupTransform(self.base_frame, self.UR_base_link_name, rospy.Time(0))
 
                 # transform local TCP pose to map frame and add to the UR base link pose
                 pose = PoseStamped()

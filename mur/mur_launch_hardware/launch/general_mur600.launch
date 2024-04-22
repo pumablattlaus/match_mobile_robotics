@@ -166,14 +166,12 @@
     <group ns="$(arg tf_prefix)">
 
         <!-- if both arms are launched, turn on dual arm collision avoidance -->
-        <group if="$(eval arg('launch_ur_l') ==true and arg('launch_ur_r') ==true)">
+        <!-- <group if="$(eval arg('launch_ur_l') ==true and arg('launch_ur_r') ==true)">
             <include file="$(find mur_control)/launch/dual_UR10_collision_avoidance.launch">
-                <!-- <arg name="ur_prefix_l" value="$(arg left_arm_group_name)/"/>
-                <arg name="ur_prefix_r" value="$(arg right_arm_group_name)/"/> -->
                 <arg name="tf_prefix" value="$(arg tf_prefix)"/>
                 <arg name="joint_states_topic" value="/$(arg tf_prefix)/joint_states"/>
             </include>
-        </group>
+        </group> -->
 
         <arg name="prefix" value="UR10"/>
         
