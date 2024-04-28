@@ -65,6 +65,10 @@
             <!-- <remap from="robot_description" to="/$(arg tf_prefix)/robot_description"/>  -->
             
             <param name="robot_state_publisher/tf_prefix" value="$(arg tf_prefix)"/>   <!-- Fixing missing tf_prefix forwarding to the ur packages -->
+            <!-- kill robot_state_publisher to prevent the robot_state_publisher from running twice -->
+            <include file="$(find ur_launch_hardware)/launch/kill_robot_state_publisher.launch">
+                <arg name="node_prefix" value="$(arg tf_prefix)/$(arg left_arm_group_name)"/>
+            </include>
 
             <include file="$(find ur_launch_hardware)/launch/dual_ur.launch">
                 <arg name="ur_version" value="ur10e"/>
@@ -120,6 +124,10 @@
         
         <group ns= "$(arg tf_prefix)/$(arg right_arm_group_name)"> 
             <param name="robot_state_publisher/tf_prefix" value="$(arg tf_prefix)/$(arg right_arm_group_name)"/>  
+            <!-- kill robot_state_publisher to prevent the robot_state_publisher from running twice -->
+            <include file="$(find ur_launch_hardware)/launch/kill_robot_state_publisher.launch">
+                <arg name="node_prefix" value="$(arg tf_prefix)/$(arg right_arm_group_name)"/>
+            </include>
 
             <include file="$(find ur_launch_hardware)/launch/dual_ur.launch">
                 <arg name="ur_version" value="ur10e"/>
@@ -166,14 +174,12 @@
     <group ns="$(arg tf_prefix)">
 
         <!-- if both arms are launched, turn on dual arm collision avoidance -->
-        <group if="$(eval arg('launch_ur_l') ==true and arg('launch_ur_r') ==true)">
+        <!-- <group if="$(eval arg('launch_ur_l') ==true and arg('launch_ur_r') ==true)">
             <include file="$(find mur_control)/launch/dual_UR10_collision_avoidance.launch">
-                <!-- <arg name="ur_prefix_l" value="$(arg left_arm_group_name)/"/>
-                <arg name="ur_prefix_r" value="$(arg right_arm_group_name)/"/> -->
                 <arg name="tf_prefix" value="$(arg tf_prefix)"/>
                 <arg name="joint_states_topic" value="/$(arg tf_prefix)/joint_states"/>
             </include>
-        </group>
+        </group> -->
 
         <arg name="prefix" value="UR10"/>
         

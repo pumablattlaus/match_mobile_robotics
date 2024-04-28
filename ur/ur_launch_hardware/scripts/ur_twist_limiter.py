@@ -190,9 +190,9 @@ class UR_twist_limiter():
         ddynrec.add_variable("lin_vel_limit", "float/double variable", 0.15, 0, 0.3)
         ddynrec.add_variable("angular_vel_limit", "float/double variable", 0.2, 0, 0.6)
         ddynrec.add_variable("lin_acc_limit", "float/double variable", 4.0, 0, 10.0)
-        ddynrec.add_variable("angular_acc_limit", "float/double variable", 4.0, 0, 10.0)
+        ddynrec.add_variable("angular_acc_limit", "float/double variable", 7.0, 0, 14.0)
         ddynrec.add_variable("lin_jerk_limit", "float/double variable", 0.8, 0, 2.0)
-        ddynrec.add_variable("angular_jerk_limit", "float/double variable", 0.8, 0, 2.0)
+        ddynrec.add_variable("angular_jerk_limit", "float/double variable", 1.7, 0, 3.0)
         ddynrec.add_variable("command_timeout", "float/double variable", 0.05, 0, 0.5)
 
         # Start the server
