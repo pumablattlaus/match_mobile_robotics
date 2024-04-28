@@ -9,8 +9,8 @@
     <arg name="tf_prefix" default="mur620a"/>
     <arg name="left_arm_group_name" default="UR10_l"/>
     <arg name="right_arm_group_name" default="UR10_r"/>
-    <arg name="external_localization" default="false"/>
-    <arg name="localization_type" default="robot_pose" />
+    <arg name="external_localization" default="true"/>
+    <arg name="localization_type" default="mocap" />
    
     <!-- ur base calibration -->
     <arg name="ur_l_xyz" default="-0.007900118242505472 -0.0028563536871674122 -0.058"/>
