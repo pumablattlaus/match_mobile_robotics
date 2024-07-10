@@ -14,7 +14,7 @@
 	<arg name="local_planner" default="DWAPlannerROS" />
 	<arg name="local_planner_config" default="$(find mir_navigation)/config/Planner/LocalPlanner/$(arg local_planner).yaml" />
 
-	<arg name="localization_type" default="ground_truth" description="i.e. amcl, ground_truth, odom,..."/>
+	<arg name="localization_type" default="ground_truth" doc="i.e. amcl, ground_truth, odom,..."/>
     <arg name="localization_mode" value="$(eval '1' if arg('localization_type') == 'amcl' else '0')" />
 
 	<include file="$(find mir_launch_sim)/launch/utils/general_mir.launch">
