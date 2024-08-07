@@ -214,6 +214,26 @@
         <joint name="$(arg prefix)_r/wrist_3_joint" value="0"/>
     </group_state>
 
+    <group_state name="folded_down" group="UR_arm_r">
+        <joint name="$(arg prefix)_r/elbow_joint" value="3.14159265359"/>
+        <joint name="$(arg prefix)_r/shoulder_lift_joint" value="-3.14159265359"/>
+        <joint name="$(arg prefix)_r/shoulder_pan_joint" value="0.0"/>
+        <joint name="$(arg prefix)_r/wrist_1_joint" value="-1.57079632679"/>
+        <joint name="$(arg prefix)_r/wrist_2_joint" value="3.14159265359"/>
+        <joint name="$(arg prefix)_r/wrist_3_joint" value="0"/>
+    </group_state>
+
+    <group_state name="folded_down" group="UR_arm_l">
+        <joint name="$(arg prefix)_r/elbow_joint" value="0.0"/>
+        <joint name="$(arg prefix)_r/shoulder_lift_joint" value="-3.14159265359"/>
+        <joint name="$(arg prefix)_r/shoulder_pan_joint" value="0.0"/>
+        <joint name="$(arg prefix)_r/wrist_1_joint" value="-1.57079632679"/>
+        <joint name="$(arg prefix)_r/wrist_2_joint" value="3.14159265359"/>
+        <joint name="$(arg prefix)_r/wrist_3_joint" value="0"/>
+    </group_state>
+
+
+
     <!--END EFFECTOR: Purpose: Represent information about an end effector.-->
     <end_effector name="hand_l" parent_link="$(arg prefix)_l/tool0" group="UR_arm_l"/>
 	<end_effector name="hand_r" parent_link="$(arg prefix)_r/tool0" group="UR_arm_r"/>
