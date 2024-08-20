@@ -14,6 +14,9 @@ jobs:
     runs-on: ubuntu-latest
     container:
       image: ros:noetic  # Verwende dein ROS 1 Docker-Image (z.B. ros:melodic)
+    defaults:
+      run:
+        shell: bash
     env:
       DISPLAY: ":99"  # Erforderlich für die headless Gazebo-Umgebung
     steps:
@@ -34,9 +37,10 @@ jobs:
 
     - name: Build the workspace
       run: |
-        source /opt/ros/noetic/setup.bash # Statt 'source'
+        source /opt/ros/noetic/setup.bash
         catkin_make
       shell: bash
+
 
     - name: Start Gazebo headless
       run: |
