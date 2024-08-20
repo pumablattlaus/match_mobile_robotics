@@ -35,6 +35,10 @@ jobs:
         mkdir -p src
         rosdep install --from-paths src --ignore-src --rosdistro $ROS_DISTRO -y
 
+    - name: Print current directory
+      run: pwd
+
+
     - name: Build the workspace
       run: |
         source /opt/ros/noetic/setup.bash
