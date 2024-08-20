@@ -24,7 +24,7 @@ jobs:
       run: |
         sudo apt-get update
         sudo apt-get install -y python3-rosdep python3-catkin-tools gazebo9
-        sudo rosdep init
+        if [ ! -f /etc/ros/rosdep/sources.list.d/20-default.list ]; then sudo rosdep init; fi
         rosdep update
 
     - name: Install dependencies
