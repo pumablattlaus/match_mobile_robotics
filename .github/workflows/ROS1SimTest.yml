@@ -34,7 +34,7 @@ jobs:
 
     - name: Build the workspace
       run: |
-        source /opt/ros/noetic/setup.bash
+        . /opt/ros/noetic/setup.bash # Statt 'source'
         catkin_make
 
     - name: Start Gazebo headless
