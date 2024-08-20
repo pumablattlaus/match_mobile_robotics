@@ -1,0 +1,64 @@
+name: Build NO ROS tests
+on: # this determines when this workflow is run
+  push:
+    branches: [ noetic-devel ]
+  pull_request:
+  #   branches: [ master ] # when there is a pull request against master
+  # schedule: # uncomment to run periodically
+  #  - cron: '0 4 * * *' # every day at 4 AM (UTC)
+  workflow_dispatch: # allow manually starting this workflow
+jobs:
+  build:
+    strategy:
+      matrix:
+        rosdistro: [noetic]
+    runs-on: ubuntu-latest
+    container:
+      image: ros:${{ matrix.rosdistro }}-ros-core
+    steps:
+    - name: Install apt dependencies
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y build-essential clang-format-10 file git python3-catkin-lint python3-catkin-tools python3-pip python3-rosdep xvfb
+    - name: Install pip dependencies
+      run: pip install pre-commit
+    - name: Checkout repository
+      uses: actions/checkout@v3
+      with:
+        path: src/match_mobile_robotics
+    - name: install remaining dependencies
+      run: |
+        cd src/match_mobile_robotics
+        bash setup_github.sh
+        cd ../..
+        sudo rosdep init
+        rosdep update
+        rosdep install --from-paths src -i -y --rosdistro ${{ matrix.rosdistro }}
+    - name: Build
+      run: |
+        . /opt/ros/${{ matrix.rosdistro }}/setup.sh
+        catkin init
+        catkin config -j 1 -p 1
+        catkin build --limit-status-rate 0.1 --no-notify
+        catkin build --limit-status-rate 0.1 --no-notify --make-args tests
+        
+    - name: Start Gazebo headless
+      run: |
+        source devel/setup.bash
+        # Xvfb startet einen virtuellen Display-Server
+        Xvfb :99 -screen 0 1920x1080x16 &
+        sleep 5  # Kurze Pause, damit Xvfb und Gazebo initialisiert werden
+        roslaunch match_gazebo big_square.launch gui:=false &
+        sleep 30  # Warte, bis Gazebo vollständig gestartet ist
+
+    - name: Check if robot spawns
+      run: |
+        source devel/setup.bash
+        rostopic echo -n1 /mir_pose_stamped_simple
+        sleep 5
+      shell: bash
+
+
+    - name: Shut down ROS
+      run: |
+        killall -9 roslaunch
