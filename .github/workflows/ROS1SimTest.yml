@@ -35,7 +35,7 @@ jobs:
         cd ..
         cd ..
         mkdir src
-        git mv * src/
+        mv match_mobile_robotics src/
         rosdep install --from-paths src --ignore-src --rosdistro $ROS_DISTRO -y
 
     - name: Print current directory
