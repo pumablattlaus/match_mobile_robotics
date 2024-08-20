@@ -1,4 +1,4 @@
-name: Build NO ROS tests
+name: Build and run
 on: # this determines when this workflow is run
   push:
     branches: [ noetic-devel ]
