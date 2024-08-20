@@ -48,7 +48,7 @@ jobs:
         # Xvfb startet einen virtuellen Display-Server
         Xvfb :99 -screen 0 1920x1080x16 &
         sleep 5  # Kurze Pause, damit Xvfb und Gazebo initialisiert werden
-        roslaunch mir_examples mir/mir_examples/launch/single_mir_600.launch gui:=false &
+        roslaunch match_gazebo big_square.launch gui:=false &
         sleep 30  # Warte, bis Gazebo vollständig gestartet ist
 
     - name: Check if robot spawns
