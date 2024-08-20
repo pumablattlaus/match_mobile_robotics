@@ -38,10 +38,6 @@ jobs:
         mv match_mobile_robotics src/
         rosdep install --from-paths src --ignore-src --rosdistro $ROS_DISTRO -y
 
-    - name: Print current directory
-      run: pwd
-
-
     - name: Build the workspace
       run: |
         cd ..
