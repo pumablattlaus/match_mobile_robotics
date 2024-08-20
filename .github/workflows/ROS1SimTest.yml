@@ -41,6 +41,12 @@ jobs:
         catkin_make
       shell: bash
 
+    - name: Test package loading
+      run: |
+        source devel/setup.bash
+        rospack find mir_examples
+      shell: bash
+
 
     - name: Start Gazebo headless
       run: |
