@@ -23,14 +23,6 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v3
 
-    - name: Navigate to correct directory
-      run: |
-        cd ..
-        cd ..
-        pwd  # Überprüft das aktuelle Verzeichnis nach dem Wechsel
-        ls -la  # Listet den Inhalt des übergeordneten Verzeichnisses auf
-
-
     - name: Setup ROS dependencies
       run: |
         sudo apt-get update
@@ -40,7 +32,8 @@ jobs:
 
     - name: Install dependencies
       run: |
-        mkdir -p src
+        cd ..
+        cd ..
         rosdep install --from-paths src --ignore-src --rosdistro $ROS_DISTRO -y
 
     - name: Print current directory
