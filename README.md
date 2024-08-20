@@ -28,6 +28,12 @@ Start by changeing directory to your catkin workspace!
 ```
 git clone https://github.com/ROSmatch/match_mobile_robotics.git
 ```
+
+If you want to use the latest changes checkout noetic-devel:
+```
+git checkout noetic-devel
+```
+
 ### Build and Install
 Browse into `your_catkin_ws_name/src/Match_Mobile_Robotics` and execute
 ```
