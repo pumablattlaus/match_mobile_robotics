@@ -26,6 +26,7 @@ jobs:
     - name: Navigate to correct directory
       run: |
         cd ..
+        cd ..
         pwd  # Überprüft das aktuelle Verzeichnis nach dem Wechsel
         ls -la  # Listet den Inhalt des übergeordneten Verzeichnisses auf
 
