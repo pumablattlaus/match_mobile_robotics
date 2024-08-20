@@ -48,14 +48,16 @@ jobs:
         # Xvfb startet einen virtuellen Display-Server
         Xvfb :99 -screen 0 1920x1080x16 &
         sleep 5  # Kurze Pause, damit Xvfb und Gazebo initialisiert werden
-        roslaunch dein_package dein_gazebo_launchfile.launch gui:=false &
+        roslaunch mir_examples single_mir_600.launch gui:=false &
         sleep 30  # Warte, bis Gazebo vollständig gestartet ist
 
     - name: Check if robot spawns
       run: |
-        # Überprüfe, ob das Robotermodel erfolgreich geladen wurde
-        rostopic echo -n1 /robot/state  # Beispieltopic, je nach Robotermodell anpassen
+        source devel/setup.bash
+        rostopic echo -n1 /mir_pose_stamped_simple
         sleep 5
+      shell: bash
+
 
     - name: Shut down ROS
       run: |
