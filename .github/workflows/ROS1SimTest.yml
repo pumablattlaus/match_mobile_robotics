@@ -26,7 +26,7 @@ jobs:
     - name: Setup ROS dependencies
       run: |
         sudo apt-get update
-        sudo apt-get install -y python3-rosdep python3-catkin-tools gazebo9
+        sudo apt-get install -y python3-rosdep python3-catkin-tools gazebo9 xvfb
         if [ ! -f /etc/ros/rosdep/sources.list.d/20-default.list ]; then sudo rosdep init; fi
         rosdep update
 
@@ -48,7 +48,7 @@ jobs:
         # Xvfb startet einen virtuellen Display-Server
         Xvfb :99 -screen 0 1920x1080x16 &
         sleep 5  # Kurze Pause, damit Xvfb und Gazebo initialisiert werden
-        roslaunch mir_examples single_mir_600.launch gui:=false &
+        roslaunch mir_examples mir/mir_examples/launch/single_mir_600.launch gui:=false &
         sleep 30  # Warte, bis Gazebo vollständig gestartet ist
 
     - name: Check if robot spawns
