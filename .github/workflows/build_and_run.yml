@@ -50,6 +50,7 @@ jobs:
         sleep 5  # Kurze Pause, damit Xvfb und Gazebo initialisiert werden
         roslaunch match_gazebo big_square.launch gui:=false &
         sleep 30  # Warte, bis Gazebo vollständig gestartet ist
+      shell: bash
 
     - name: Check if robot spawns
       run: |
