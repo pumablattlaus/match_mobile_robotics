@@ -44,15 +44,17 @@ jobs:
         
     - name: Start Gazebo headless
       run: |
-        source /opt/ros/noetic/setup.bash
-        source devel/setup.bash
+        echo "Starting Xvfb..."
         Xvfb :99 -screen 0 1920x1080x16 &
-        sleep 5  # Allow time for Xvfb to start
-        roslaunch match_gazebo big_square.launch gui:=false > gazebo_output.log 2>&1 &
-        sleep 60  # Allow more time for Gazebo to fully start
-        cat gazebo_output.log  # Display the output for debugging
-        wait  # Ensure background processes keep running
+        sleep 5
+        echo "Sourcing setup.bash..."
+        source devel/setup.bash
+        echo "Launching Gazebo..."
+        roslaunch match_gazebo big_square.launch gui:=false &
+        sleep 30
+        echo "Gazebo launch completed."
       shell: bash
+
 
     - name: Check if robot spawns
       run: |
