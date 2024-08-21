@@ -42,14 +42,16 @@ jobs:
         catkin build --limit-status-rate 0.1 --no-notify
         catkin build --limit-status-rate 0.1 --no-notify --make-args tests
 
-    - name: Setup ROS environment
-      uses: ros-tooling/setup-ros@0.7.8
+    #- name: Setup ROS environment
+    #  uses: ros-tooling/setup-ros@0.7.8
 
     - name: Test Xvfb with xclock
       run: |
         sudo apt-get install -y x11-apps
         export DISPLAY=:99
-        xclock &
+        Xvfb :99 -screen 0 1920x1080x16 &
+        xhost +
+        xclock 
         sleep 5
 
             
@@ -57,6 +59,7 @@ jobs:
       run: |
         set -x
         export DISPLAY=:99
+        xhost +
         gazebo 
         sleep 10
       shell: bash
