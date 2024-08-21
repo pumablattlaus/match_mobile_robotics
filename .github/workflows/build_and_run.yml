@@ -44,11 +44,20 @@ jobs:
 
     - name: Setup ROS environment
       uses: ros-tooling/setup-ros@0.7.8
+
+    - name: Test Xvfb with xclock
+      run: |
+        sudo apt-get install -y x11-apps
+        export DISPLAY=:99
+        xclock &
+        sleep 5
+
             
     - name: Run Gazebo headless
       run: |
+        set -x
         export DISPLAY=:99
-        gazebo --headless 
+        gazebo 
         sleep 10
       shell: bash
 
