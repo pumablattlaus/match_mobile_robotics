@@ -45,7 +45,32 @@ jobs:
     - name: Setup ROS environment
       uses: ros-tooling/setup-ros@0.7.8
             
-        
+    - name: Check Gazebo installation
+      run: gazebo --version
+
+    - name: Run a simple roslaunch test
+      run: |
+        source /opt/ros/noetic/setup.bash
+        roslaunch gazebo_ros empty_world.launch
+
+    - name: Start Gazebo with verbose logging
+      run: |
+        source /opt/ros/noetic/setup.bash
+        roslaunch match_gazebo big_square.launch gui:=false --screen
+
+    - name: Validate ROS environment
+      run: |
+        source /opt/ros/noetic/setup.bash
+        source devel/setup.bash
+        rospack profile
+        printenv | grep ROS
+
+    - name: Start Gazebo with timeout
+      run: |
+        source /opt/ros/noetic/setup.bash
+        timeout 60s roslaunch match_gazebo big_square.launch gui:=false
+
+ 
     - name: Start Gazebo headless
       run: |
         set -x
