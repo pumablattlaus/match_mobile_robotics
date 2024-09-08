@@ -11,12 +11,13 @@ jobs:
     strategy:
       matrix:
         rosdistro: [noetic]
-    runs-on: [self-hosted, docker]
-    container:
-      image: osrf/ros:noetic-desktop-full
+    runs-on: ubuntu-latest
     defaults:
       run:
         shell: bash
+        working-directory: catkin_ws/
+    container:
+      image: osrf/ros:noetic-desktop-full
     steps:
       - name: Install apt dependencies
         run: |
