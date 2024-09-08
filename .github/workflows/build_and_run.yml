@@ -35,7 +35,9 @@ jobs:
           cd src/match_mobile_robotics
           bash setup_github.sh
           cd ../..
-          sudo rosdep init
+          if [ ! -f /etc/ros/rosdep/sources.list.d/20-default.list ]; then
+            sudo rosdep init
+          fi
           rosdep update
           rosdep install --from-paths src -i -y --rosdistro ${{ matrix.rosdistro }}
 
