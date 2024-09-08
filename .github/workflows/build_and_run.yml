@@ -1,12 +1,11 @@
-name: Build and run
-on: # this determines when this workflow is run
+name: Build and Launch Robot in Gazebo
+
+on:
   push:
-    branches: [ noetic-devel ]
+    branches: [noetic-devel]
   pull_request:
-  #   branches: [ master ] # when there is a pull request against master
-  # schedule: # uncomment to run periodically
-  #  - cron: '0 4 * * *' # every day at 4 AM (UTC)
-  workflow_dispatch: # allow manually starting this workflow
+  workflow_dispatch:
+
 jobs:
   build:
     strategy:
@@ -16,116 +15,58 @@ jobs:
     container:
       image: ros:${{ matrix.rosdistro }}-ros-core
     steps:
-    - name: Install apt dependencies
-      run: |
-        sudo apt-get update
-        sudo apt-get install -y build-essential clang-format-10 file git python3-catkin-lint python3-catkin-tools python3-pip python3-rosdep xvfb
-    - name: Install pip dependencies
-      run: pip install pre-commit
-    - name: Checkout repository
-      uses: actions/checkout@v3
-      with:
-        path: src/match_mobile_robotics
-    - name: install remaining dependencies
-      run: |
-        cd src/match_mobile_robotics
-        bash setup_github.sh
-        cd ../..
-        sudo rosdep init
-        rosdep update
-        rosdep install --from-paths src -i -y --rosdistro ${{ matrix.rosdistro }}
-    - name: Build
-      run: |
-        . /opt/ros/${{ matrix.rosdistro }}/setup.sh
-        catkin init
-        catkin config -j 1 -p 1
-        catkin build --limit-status-rate 0.1 --no-notify
-        catkin build --limit-status-rate 0.1 --no-notify --make-args tests
+      - name: Install apt dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y \
+            build-essential clang-format-10 file git python3-catkin-lint \
+            python3-catkin-tools python3-pip python3-rosdep \
+            gazebo9 ros-${{ matrix.rosdistro }}-gazebo-ros-pkgs ros-${{ matrix.rosdistro }}-gazebo-ros-control
 
-    #- name: Setup ROS environment
-    #  uses: ros-tooling/setup-ros@0.7.8
+      - name: Install pip dependencies
+        run: pip install pre-commit
 
-    - name: Run Gazebo without Xvfb
-      run: |
-        gazebo --headless
+      - name: Checkout repository
+        uses: actions/checkout@v3
+        with:
+          path: src/match_mobile_robotics
 
-    - name: Test Xvfb with xclock
-      run: |
-        sudo apt-get install -y x11-apps
-        export DISPLAY=:99
-        Xvfb :99 -screen 0 1920x1080x16 &
-        xclock 
-        sleep 5
+      - name: install remaining dependencies
+        run: |
+          cd src/match_mobile_robotics
+          bash setup_github.sh
+          cd ../..
+          sudo rosdep init
+          rosdep update
+          rosdep install --from-paths src -i -y --rosdistro ${{ matrix.rosdistro }}
 
-            
-    - name: Run Gazebo headless
-      run: |
-        set -x
-        export DISPLAY=:99
-        xhost +
-        gazebo 
-        sleep 10
-      shell: bash
+      - name: Build
+        run: |
+          . /opt/ros/${{ matrix.rosdistro }}/setup.sh
+          catkin init
+          catkin config -j 1 -p 1
+          catkin build --limit-status-rate 0.1 --no-notify
+          catkin build --limit-status-rate 0.1 --no-notify --make-args tests
 
+      - name: Source environment
+        run: |
+          . /opt/ros/${{ matrix.rosdistro }}/setup.sh
+          source devel/setup.sh
 
-    - name: Run a simple roslaunch test
-      run: |
-        source /opt/ros/noetic/setup.bash
-        roslaunch gazebo_ros empty_world.launch
+      # New step: Launch Gazebo and Robot
+      - name: Launch Gazebo with Robot
+        run: |
+          . /opt/ros/${{ matrix.rosdistro }}/setup.sh
+          source devel/setup.sh
+          roslaunch <your_robot_package> <your_robot_launch_file>.launch
 
-    - name: Start Gazebo with verbose logging
-      run: |
-        source /opt/ros/noetic/setup.bash
-        roslaunch match_gazebo big_square.launch gui:=false --screen
+      # - name: Run tests
+      #   run: |
+      #     . devel/setup.sh
+      #     catkin run_tests
+      #     catkin_test_results
 
-    - name: Validate ROS environment
-      run: |
-        source /opt/ros/noetic/setup.bash
-        source devel/setup.bash
-        rospack profile
-        printenv | grep ROS
-
-    - name: Start Gazebo with timeout
-      run: |
-        source /opt/ros/noetic/setup.bash
-        timeout 60s roslaunch match_gazebo big_square.launch gui:=false
-
- 
-    - name: Start Gazebo headless
-      run: |
-        set -x
-        echo "Starting Xvfb..."
-        # Xvfb :99 -screen 0 1920x1080x16 &
-        #sleep 5
-        echo "Sourcing setup.bash..."
-        source devel/setup.bash
-        echo "Launching Gazebo..."
-        roslaunch match_gazebo big_square.launch gui:=false
-        sleep 30
-        echo "Gazebo launch completed."
-      shell: bash
-
-    - name: Check for roslaunch errors
-      run: |
-        if [ $? -ne 0 ]; then
-          echo "roslaunch failed"
-          exit 1
-        fi
-      shell: bash
-
-    - name: Check Gazebo installation
-      run: gazebo --version
-
-
-
-    - name: Check if robot spawns
-      run: |
-        source devel/setup.bash
-        rostopic echo -n1 /mir_pose_stamped_simple
-        sleep 5
-      shell: bash
-
-
-    - name: Shut down ROS
-      run: |
-        killall -9 roslaunch
+      - name: Run pre-commit hooks
+        run: |
+          cd src/match_mobile_robotics
+          pre-commit run -a
