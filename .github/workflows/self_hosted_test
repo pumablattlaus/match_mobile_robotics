@@ -11,7 +11,7 @@ jobs:
     strategy:
       matrix:
         rosdistro: [noetic]
-    runs-on: [self-hosted, docker]
+    runs-on: [self-hosted, macos]
     container:
       image: osrf/ros:noetic-desktop-full
     defaults:
