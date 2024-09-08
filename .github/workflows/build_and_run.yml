@@ -31,7 +31,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
         with:
-          path: src  # Checkout directly into the src folder of the catkin workspace
+          path: src/match_mobile_robotics
 
       - name: install remaining dependencies
         run: |
