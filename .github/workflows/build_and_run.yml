@@ -61,7 +61,7 @@ jobs:
         run: |
           source /opt/ros/${{ matrix.rosdistro }}/setup.sh
           source devel/setup.sh
-          roslaunch <your_robot_package> <your_robot_launch_file>.launch
+          roslaunch mir_examples single_mir_600.launch
 
       - name: Run pre-commit hooks
         run: |
