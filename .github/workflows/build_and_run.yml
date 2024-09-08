@@ -31,9 +31,9 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
         with:
-          path: src/match_mobile_robotics
+          path: src  # Checkout directly into the src folder
 
-      - name: install remaining dependencies
+      - name: Install remaining dependencies
         run: |
           cd src/match_mobile_robotics
           bash setup_github.sh
