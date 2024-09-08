@@ -52,12 +52,12 @@ jobs:
       - name: Source environment
         run: |
           . /opt/ros/${{ matrix.rosdistro }}/setup.sh
-          source devel/setup.sh
+          . devel/setup.sh
 
       - name: Launch Gazebo with Robot
         run: |
           . /opt/ros/${{ matrix.rosdistro }}/setup.sh
-          source devel/setup.sh
+          . devel/setup.sh
           roslaunch <your_robot_package> <your_robot_launch_file>.launch
 
       - name: Run pre-commit hooks
