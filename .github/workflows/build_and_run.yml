@@ -1,4 +1,4 @@
-name: Build and Launch Robot in Gazebo
+name: Build and Launch Robot in Gazebo on Macbook
 
 on:
   push:
@@ -11,22 +11,23 @@ jobs:
     strategy:
       matrix:
         rosdistro: [noetic]
-    runs-on: ubuntu-latest
-    container:
-      image: osrf/ros:noetic-desktop-full
-    defaults:
-      run:
-        shell: bash
+    runs-on: 
+      - self-hosted
+      - macbook
     steps:
-      - name: Install apt dependencies
+      - name: Install Homebrew
         run: |
-          sudo apt-get update
-          sudo apt-get install -y \
-            build-essential clang-format-10 file git python3-catkin-lint \
-            python3-catkin-tools python3-pip python3-rosdep
+          /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+          brew update
+
+      - name: Install dependencies with Homebrew
+        run: |
+          brew install clang-format git cmake
+          brew install python3 catkin-tools
+          brew install ros-noetic-desktop-full  # You will need to ensure ROS is properly installed on macOS
 
       - name: Install pip dependencies
-        run: pip install pre-commit
+        run: pip3 install pre-commit
 
       - name: Checkout repository
         uses: actions/checkout@v3
@@ -38,9 +39,6 @@ jobs:
           cd src/match_mobile_robotics
           bash setup_github.sh
           cd ../..
-          if [ ! -f /etc/ros/rosdep/sources.list.d/20-default.list ]; then
-            sudo rosdep init
-          fi
           rosdep update
           rosdep install --from-paths src -i -y --rosdistro ${{ matrix.rosdistro }}
 
@@ -61,7 +59,7 @@ jobs:
         run: |
           source /opt/ros/${{ matrix.rosdistro }}/setup.sh
           source devel/setup.sh
-          roslaunch mir_examples single_mir_600.launch
+          roslaunch <your_robot_package> <your_robot_launch_file>.launch
 
       - name: Run pre-commit hooks
         run: |
