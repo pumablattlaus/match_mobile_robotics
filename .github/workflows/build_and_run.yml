@@ -56,6 +56,7 @@ jobs:
         run: |
           source /opt/ros/${{ matrix.rosdistro }}/setup.sh
           source devel/setup.sh
+          rospack list
 
       - name: Launch Gazebo with Robot
         run: |
