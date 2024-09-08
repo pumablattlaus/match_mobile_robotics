@@ -13,7 +13,10 @@ jobs:
         rosdistro: [noetic]
     runs-on: ubuntu-latest
     container:
-      image: osrf/ros:noetic-desktop-full # Pre-configured Docker image with ROS Noetic + Gazebo 11
+      image: osrf/ros:noetic-desktop-full
+    defaults:
+      run:
+        shell: bash
     steps:
       - name: Install apt dependencies
         run: |
@@ -43,7 +46,7 @@ jobs:
 
       - name: Build
         run: |
-          . /opt/ros/${{ matrix.rosdistro }}/setup.sh
+          source /opt/ros/${{ matrix.rosdistro }}/setup.sh
           catkin init
           catkin config -j 1 -p 1
           catkin build --limit-status-rate 0.1 --no-notify
@@ -51,13 +54,13 @@ jobs:
 
       - name: Source environment
         run: |
-          . /opt/ros/${{ matrix.rosdistro }}/setup.sh
-          . devel/setup.sh
+          source /opt/ros/${{ matrix.rosdistro }}/setup.sh
+          source devel/setup.sh
 
       - name: Launch Gazebo with Robot
         run: |
-          . /opt/ros/${{ matrix.rosdistro }}/setup.sh
-          . devel/setup.sh
+          source /opt/ros/${{ matrix.rosdistro }}/setup.sh
+          source devel/setup.sh
           roslaunch <your_robot_package> <your_robot_launch_file>.launch
 
       - name: Run pre-commit hooks
