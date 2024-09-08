@@ -15,7 +15,6 @@ jobs:
     defaults:
       run:
         shell: bash
-        working-directory: catkin_ws/
     container:
       image: osrf/ros:noetic-desktop-full
     steps:
