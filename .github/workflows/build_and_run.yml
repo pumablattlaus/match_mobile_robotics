@@ -13,15 +13,14 @@ jobs:
         rosdistro: [noetic]
     runs-on: ubuntu-latest
     container:
-      image: osrf/ros:noetic-desktop-full
+      image: osrf/ros:noetic-desktop-full # Pre-configured Docker image with ROS Noetic + Gazebo 11
     steps:
       - name: Install apt dependencies
         run: |
           sudo apt-get update
           sudo apt-get install -y \
             build-essential clang-format-10 file git python3-catkin-lint \
-            python3-catkin-tools python3-pip python3-rosdep \
-            gazebo9 ros-${{ matrix.rosdistro }}-gazebo-ros-pkgs ros-${{ matrix.rosdistro }}-gazebo-ros-control
+            python3-catkin-tools python3-pip python3-rosdep
 
       - name: Install pip dependencies
         run: pip install pre-commit
@@ -53,18 +52,11 @@ jobs:
           . /opt/ros/${{ matrix.rosdistro }}/setup.sh
           source devel/setup.sh
 
-      # New step: Launch Gazebo and Robot
       - name: Launch Gazebo with Robot
         run: |
           . /opt/ros/${{ matrix.rosdistro }}/setup.sh
           source devel/setup.sh
           roslaunch <your_robot_package> <your_robot_launch_file>.launch
-
-      # - name: Run tests
-      #   run: |
-      #     . devel/setup.sh
-      #     catkin run_tests
-      #     catkin_test_results
 
       - name: Run pre-commit hooks
         run: |
