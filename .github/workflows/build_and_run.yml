@@ -31,7 +31,15 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
         with:
-          path: src  # Checkout directly into the src folder
+          path: src  # Ensure checkout happens into the src folder
+
+      # Add a debug step to inspect the directory structure
+      - name: List directory contents after checkout
+        run: |
+          echo "Listing contents of the current directory:"
+          ls -al
+          echo "Listing contents of the src directory:"
+          ls -al src
 
       - name: Install remaining dependencies
         run: |
