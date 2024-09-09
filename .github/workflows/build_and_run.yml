@@ -30,13 +30,11 @@ jobs:
 
       - name: Set up Catkin workspace
         run: |
-          # Use GitHub's default workspace directory and create catkin_ws structure inside it
           mkdir -p $GITHUB_WORKSPACE/catkin_ws/src
 
       - name: Checkout repository
         uses: actions/checkout@v3
         with:
-          # Checkout the repository into catkin_ws/src/match_mobile_robotics
           path: catkin_ws/src/match_mobile_robotics
 
       - name: Install remaining dependencies
@@ -50,31 +48,26 @@ jobs:
           rosdep update
           rosdep install --from-paths src -i -y --rosdistro ${{ matrix.rosdistro }}
 
-      - name: Clean workspace (optional but recommended for fresh builds)
+      - name: Clean workspace
         run: |
           source /opt/ros/${{ matrix.rosdistro }}/setup.sh
           cd $GITHUB_WORKSPACE/catkin_ws
-          catkin clean -y || true  # Clean the workspace if it exists
+          catkin clean -y  # Clean the workspace to ensure a fresh build
 
       - name: Build workspace
         run: |
           source /opt/ros/${{ matrix.rosdistro }}/setup.sh
           cd $GITHUB_WORKSPACE/catkin_ws
-          catkin build --limit-status-rate 0.1 --no-notify
-          catkin build --limit-status-rate 0.1 --no-notify --make-args tests
+          catkin build --limit-status-rate 0.1 --no-notify  # Build the workspace
 
-      - name: Source environment
+      - name: Debug workspace after build
         run: |
-          source /opt/ros/${{ matrix.rosdistro }}/setup.sh
-          source $GITHUB_WORKSPACE/catkin_ws/devel/setup.sh  # Source the workspace environment
-
-      - name: Debug workspace packages
-        run: |
-          source /opt/ros/${{ matrix.rosdistro }}/setup.sh
-          source $GITHUB_WORKSPACE/catkin_ws/devel/setup.sh
-          echo "Listing available ROS packages:"
-          rospack list  # List all packages, should include your workspace packages
-          echo "ROS_PACKAGE_PATH: $ROS_PACKAGE_PATH"
+          echo "Listing contents of the catkin_ws directory:"
+          ls -al $GITHUB_WORKSPACE/catkin_ws
+          echo "Listing contents of the devel directory:"
+          ls -al $GITHUB_WORKSPACE/catkin_ws/devel
+          echo "Listing contents of the src directory:"
+          ls -al $GITHUB_WORKSPACE/catkin_ws/src
 
       - name: Source and verify workspace environment
         run: |
@@ -82,7 +75,6 @@ jobs:
           source $GITHUB_WORKSPACE/catkin_ws/devel/setup.sh  # Source the Catkin workspace environment
           echo "ROS_PACKAGE_PATH: $ROS_PACKAGE_PATH"  # Check the ROS_PACKAGE_PATH
           rospack list  # List all ROS packages, including your workspace packages
-
 
       - name: Launch Gazebo with Robot
         run: |
