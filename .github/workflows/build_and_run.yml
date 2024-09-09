@@ -28,24 +28,23 @@ jobs:
       - name: Install pip dependencies
         run: pip install pre-commit
 
-      - name: Initialize Catkin workspace
+      - name: Set up Catkin workspace
         run: |
-          # Create the catkin_ws if it doesn't exist
-          mkdir -p catkin_ws/src
-          cd catkin_ws
-          catkin init  # Initialize the workspace
-          cd src
+          # Create the correct workspace directory structure
+          mkdir -p /__w/catkin_ws/src
+          cd /__w/catkin_ws
+          catkin init
 
       - name: Checkout repository
         uses: actions/checkout@v3
         with:
-          path: catkin_ws/src  # Checkout directly into the catkin_ws/src folder
+          path: /__w/catkin_ws/src/match_mobile_robotics  # Checkout into src/match_mobile_robotics
 
       - name: Install remaining dependencies
         run: |
-          cd catkin_ws/src
-          bash setup_github.sh  # Assuming this is correct
-          cd ../..
+          cd /__w/catkin_ws/src/match_mobile_robotics
+          bash setup_github.sh
+          cd /__w/catkin_ws
           if [ ! -f /etc/ros/rosdep/sources.list.d/20-default.list ]; then
             sudo rosdep init
           fi
@@ -55,25 +54,25 @@ jobs:
       - name: Clean workspace (optional but recommended for fresh builds)
         run: |
           source /opt/ros/${{ matrix.rosdistro }}/setup.sh
-          cd catkin_ws
+          cd /__w/catkin_ws
           catkin clean -y || true  # Clean the workspace if it exists
 
       - name: Build workspace
         run: |
           source /opt/ros/${{ matrix.rosdistro }}/setup.sh
-          cd catkin_ws
+          cd /__w/catkin_ws
           catkin build --limit-status-rate 0.1 --no-notify
           catkin build --limit-status-rate 0.1 --no-notify --make-args tests
 
       - name: Source environment
         run: |
           source /opt/ros/${{ matrix.rosdistro }}/setup.sh
-          source catkin_ws/devel/setup.sh  # Source the workspace environment
+          source /__w/catkin_ws/devel/setup.sh  # Source the workspace environment
 
       - name: Debug workspace packages
         run: |
           source /opt/ros/${{ matrix.rosdistro }}/setup.sh
-          source catkin_ws/devel/setup.sh
+          source /__w/catkin_ws/devel/setup.sh
           echo "Listing available ROS packages:"
           rospack list  # List all packages, should include your workspace packages
           echo "ROS_PACKAGE_PATH: $ROS_PACKAGE_PATH"
@@ -81,10 +80,10 @@ jobs:
       - name: Launch Gazebo with Robot
         run: |
           source /opt/ros/${{ matrix.rosdistro }}/setup.sh
-          source catkin_ws/devel/setup.sh
+          source /__w/catkin_ws/devel/setup.sh
           roslaunch mir_examples single_mir_600.launch
 
       - name: Run pre-commit hooks
         run: |
-          cd catkin_ws/src/match_gazebo  # Adjust this based on your folder structure
+          cd /__w/catkin_ws/src/match_mobile_robotics
           pre-commit run -a
