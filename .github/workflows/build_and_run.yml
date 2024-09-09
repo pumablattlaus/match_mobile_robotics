@@ -51,26 +51,22 @@ jobs:
       - name: Build workspace
         run: |
           source /opt/ros/${{ matrix.rosdistro }}/setup.sh
-          catkin build --workspace $GITHUB_WORKSPACE/catkin_ws --limit-status-rate 0.1 --no-notify
+          cd $GITHUB_WORKSPACE/catkin_ws
+          catkin build --limit-status-rate 0.1 --no-notify
 
-      - name: Debug workspace after build
+      - name: Source and verify workspace environment
         run: |
-          echo "Listing contents of the catkin_ws directory:"
-          ls -al $GITHUB_WORKSPACE/catkin_ws
-          echo "Listing contents of the devel directory:"
-          ls -al $GITHUB_WORKSPACE/catkin_ws/devel
-          echo "Listing contents of the src directory:"
-          ls -al $GITHUB_WORKSPACE/catkin_ws/src
-
-      - name: Source local_setup.sh instead of setup.sh
-        run: |
-          source /opt/ros/${{ matrix.rosdistro }}/setup.sh  # Source the base ROS environment
-          source $GITHUB_WORKSPACE/catkin_ws/devel/local_setup.sh  # Use local_setup.sh to ensure workspace is properly sourced
+          # First, source the base ROS environment
+          source /opt/ros/${{ matrix.rosdistro }}/setup.sh
+          # Then, source the workspace environment
+          source $GITHUB_WORKSPACE/catkin_ws/devel/local_setup.sh
           echo "ROS_PACKAGE_PATH: $ROS_PACKAGE_PATH"  # Check the ROS_PACKAGE_PATH
           rospack list  # List all ROS packages, including your workspace packages
 
       - name: Manually set ROS_PACKAGE_PATH (fallback)
         run: |
+          # First, source the base ROS environment to make ROS commands available
+          source /opt/ros/${{ matrix.rosdistro }}/setup.sh
           export ROS_PACKAGE_PATH=$GITHUB_WORKSPACE/catkin_ws/src:$ROS_PACKAGE_PATH
           echo "Manually set ROS_PACKAGE_PATH: $ROS_PACKAGE_PATH"
           rospack list  # Verify the packages are now included
