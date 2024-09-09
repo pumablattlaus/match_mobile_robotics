@@ -44,6 +44,11 @@ jobs:
           rosdep update
           rosdep install --from-paths src -i -y --rosdistro ${{ matrix.rosdistro }}
 
+      - name: Clean workspace (optional but recommended for fresh builds)
+        run: |
+          source /opt/ros/${{ matrix.rosdistro }}/setup.sh
+          catkin clean -y || true  # Clean the workspace if it exists
+
       - name: Build
         run: |
           source /opt/ros/${{ matrix.rosdistro }}/setup.sh
@@ -56,7 +61,14 @@ jobs:
         run: |
           source /opt/ros/${{ matrix.rosdistro }}/setup.sh
           source devel/setup.sh
-          rospack list
+
+      - name: Debug workspace packages
+        run: |
+          source /opt/ros/${{ matrix.rosdistro }}/setup.sh
+          source devel/setup.sh
+          echo "Listing available ROS packages:"
+          rospack list  # List all packages, should include your workspace packages
+          echo "ROS_PACKAGE_PATH: $ROS_PACKAGE_PATH"
 
       - name: Launch Gazebo with Robot
         run: |
