@@ -31,7 +31,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
         with:
-          path: src  # Ensure checkout happens into the src folder
+          path: src/match_mobile_robotics  # Ensure checkout happens into the src folder
 
       # Add a debug step to inspect the directory structure
       - name: List directory contents after checkout
