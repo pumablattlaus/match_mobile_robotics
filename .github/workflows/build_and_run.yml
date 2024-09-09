@@ -15,8 +15,8 @@ jobs:
     defaults:
       run:
         shell: bash
-    container:
-      image: osrf/ros:noetic-desktop-full
+    #container:
+     # image: osrf/ros:noetic-desktop-full
     steps:
       - name: Install apt dependencies
         run: |
