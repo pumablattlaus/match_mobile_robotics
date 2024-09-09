@@ -76,4 +76,4 @@ jobs:
           else
             echo "No data received on pose topic, failing the test."
             exit 1
-          fi
+          fi 
