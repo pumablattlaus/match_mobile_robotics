@@ -75,7 +75,7 @@ jobs:
         run: |
           source /opt/ros/${{ matrix.rosdistro }}/setup.sh
           source $GITHUB_WORKSPACE/catkin_ws/devel/local_setup.sh
-          roslaunch mir_examples single_mir_600.launch
+          roslaunch gazebo_ros empty_world.launch
 
       - name: Run pre-commit hooks
         run: |
