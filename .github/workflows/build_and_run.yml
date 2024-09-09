@@ -48,11 +48,17 @@ jobs:
           rosdep update
           rosdep install --from-paths src -i -y --rosdistro ${{ matrix.rosdistro }}
 
+      - name: Clean workspace
+        run: |
+          source /opt/ros/${{ matrix.rosdistro }}/setup.sh
+          cd $GITHUB_WORKSPACE/catkin_ws
+          catkin clean -y  # Clean the workspace to ensure a fresh build
+
       - name: Build workspace
         run: |
           source /opt/ros/${{ matrix.rosdistro }}/setup.sh
           cd $GITHUB_WORKSPACE/catkin_ws
-          catkin build --limit-status-rate 0.1 --no-notify  # Build the workspace
+          catkin build --limit-status-rate 0.1 --no-notify
 
       - name: Debug workspace after build
         run: |
@@ -63,17 +69,23 @@ jobs:
           echo "Listing contents of the src directory:"
           ls -al $GITHUB_WORKSPACE/catkin_ws/src
 
-      - name: Source and verify workspace environment
+      - name: Source local_setup.sh instead of setup.sh
         run: |
           source /opt/ros/${{ matrix.rosdistro }}/setup.sh  # Source the base ROS environment
-          source $GITHUB_WORKSPACE/catkin_ws/devel/setup.sh  # Source the Catkin workspace environment
+          source $GITHUB_WORKSPACE/catkin_ws/devel/local_setup.sh  # Use local_setup.sh to ensure workspace is properly sourced
           echo "ROS_PACKAGE_PATH: $ROS_PACKAGE_PATH"  # Check the ROS_PACKAGE_PATH
           rospack list  # List all ROS packages, including your workspace packages
+
+      - name: Manually set ROS_PACKAGE_PATH (fallback)
+        run: |
+          export ROS_PACKAGE_PATH=$GITHUB_WORKSPACE/catkin_ws/src:$ROS_PACKAGE_PATH
+          echo "Manually set ROS_PACKAGE_PATH: $ROS_PACKAGE_PATH"
+          rospack list  # Verify the packages are now included
 
       - name: Launch Gazebo with Robot
         run: |
           source /opt/ros/${{ matrix.rosdistro }}/setup.sh
-          source $GITHUB_WORKSPACE/catkin_ws/devel/setup.sh
+          source $GITHUB_WORKSPACE/catkin_ws/devel/local_setup.sh
           roslaunch mir_examples single_mir_600.launch
 
       - name: Run pre-commit hooks
