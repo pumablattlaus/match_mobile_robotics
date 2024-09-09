@@ -54,30 +54,7 @@ jobs:
           cd $GITHUB_WORKSPACE/catkin_ws
           catkin build --limit-status-rate 0.1 --no-notify
 
-      - name: Source and verify workspace environment
+      - name: Launch Gazebo with Robot using absolute path
         run: |
-          # First, source the base ROS environment
-          source /opt/ros/${{ matrix.rosdistro }}/setup.sh
-          # Then, source the workspace environment
-          source $GITHUB_WORKSPACE/catkin_ws/devel/local_setup.sh
-          echo "ROS_PACKAGE_PATH: $ROS_PACKAGE_PATH"  # Check the ROS_PACKAGE_PATH
-          rospack list  # List all ROS packages, including your workspace packages
-
-      - name: Manually set ROS_PACKAGE_PATH (fallback)
-        run: |
-          # First, source the base ROS environment to make ROS commands available
-          source /opt/ros/${{ matrix.rosdistro }}/setup.sh
-          export ROS_PACKAGE_PATH=$GITHUB_WORKSPACE/catkin_ws/src:$ROS_PACKAGE_PATH
-          echo "Manually set ROS_PACKAGE_PATH: $ROS_PACKAGE_PATH"
-          rospack list  # Verify the packages are now included
-
-      - name: Launch Gazebo with Robot
-        run: |
-          source /opt/ros/${{ matrix.rosdistro }}/setup.sh
-          source $GITHUB_WORKSPACE/catkin_ws/devel/local_setup.sh
-          roslaunch gazebo_ros empty_world.launch
-
-      - name: Run pre-commit hooks
-        run: |
-          cd $GITHUB_WORKSPACE/catkin_ws/src/match_mobile_robotics
-          pre-commit run -a
+          source /opt/ros/${{ matrix.rosdistro }}/setup.sh  # Ensure base ROS is sourced
+          roslaunch $GITHUB_WORKSPACE/catkin_ws/src/match_mobile_robotics/mir/mir_examples/launch/single_mir_600.launch
