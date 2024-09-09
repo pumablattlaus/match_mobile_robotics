@@ -76,6 +76,14 @@ jobs:
           rospack list  # List all packages, should include your workspace packages
           echo "ROS_PACKAGE_PATH: $ROS_PACKAGE_PATH"
 
+      - name: Source and verify workspace environment
+        run: |
+          source /opt/ros/${{ matrix.rosdistro }}/setup.sh  # Source the base ROS environment
+          source $GITHUB_WORKSPACE/catkin_ws/devel/setup.sh  # Source the Catkin workspace environment
+          echo "ROS_PACKAGE_PATH: $ROS_PACKAGE_PATH"  # Check the ROS_PACKAGE_PATH
+          rospack list  # List all ROS packages, including your workspace packages
+
+
       - name: Launch Gazebo with Robot
         run: |
           source /opt/ros/${{ matrix.rosdistro }}/setup.sh
