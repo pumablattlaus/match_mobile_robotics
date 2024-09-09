@@ -48,12 +48,6 @@ jobs:
           rosdep update
           rosdep install --from-paths src -i -y --rosdistro ${{ matrix.rosdistro }}
 
-      - name: Clean workspace
-        run: |
-          source /opt/ros/${{ matrix.rosdistro }}/setup.sh
-          cd $GITHUB_WORKSPACE/catkin_ws
-          catkin clean -y  # Clean the workspace to ensure a fresh build
-
       - name: Build workspace
         run: |
           source /opt/ros/${{ matrix.rosdistro }}/setup.sh
