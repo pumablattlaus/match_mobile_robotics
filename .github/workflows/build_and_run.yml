@@ -57,4 +57,7 @@ jobs:
       - name: Launch Gazebo with Robot using absolute path
         run: |
           source /opt/ros/${{ matrix.rosdistro }}/setup.sh  # Ensure base ROS is sourced
+          cd $GITHUB_WORKSPACE/catkin_ws
+          ls
+          source devel/setup.bash
           roslaunch mir_examples single_mir_600.launch
