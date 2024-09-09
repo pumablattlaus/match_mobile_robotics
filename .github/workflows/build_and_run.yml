@@ -15,8 +15,6 @@ jobs:
     defaults:
       run:
         shell: bash
-    #container:
-     # image: osrf/ros:noetic-desktop-full
     steps:
       - name: Install apt dependencies
         run: |
@@ -60,4 +58,21 @@ jobs:
           cd $GITHUB_WORKSPACE/catkin_ws
           ls
           source devel/setup.bash
-          roslaunch mir_examples single_mir_600.launch
+          roslaunch mir_examples single_mir_600.launch &
+          sleep 20  # Give some time for Gazebo and ROS nodes to initialize
+
+      - name: Check for /pose topic data
+        run: |
+          source /opt/ros/${{ matrix.rosdistro }}/setup.sh
+          source $GITHUB_WORKSPACE/catkin_ws/devel/setup.bash
+          timeout 10 rostopic echo /mir_pose_simple -n 1
+        continue-on-error: true
+
+      - name: Evaluate test result
+        run: |
+          if timeout 10 rostopic echo /mir_pose_simple -n 1; then
+            echo "Data received on pose topic, marking test as successful."
+            exit 0
+          else
+            echo "No data received on pose topic, failing the test."
+            exit 1
