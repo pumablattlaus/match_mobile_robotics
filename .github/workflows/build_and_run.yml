@@ -58,6 +58,7 @@ jobs:
           cd $GITHUB_WORKSPACE/catkin_ws
           ls
           source devel/setup.bash
+          export QT_QPA_PLATFORM=offscreen
           roslaunch mir_examples single_mir_600.launch &
           sleep 10  # Give some time for Gazebo and ROS nodes to initialize
 
