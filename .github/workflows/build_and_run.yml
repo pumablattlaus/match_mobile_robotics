@@ -75,7 +75,7 @@ jobs:
       - name: Evaluate test result
         run: |
           source /opt/ros/${{ matrix.rosdistro }}/setup.sh
-          if timeout 10 rostopic echo /mir_pose_simple -n 1; then
+          if timeout 10 rostopic echo /mur620/UR10_l/global_tcp_pose -n 1; then
             echo "Data received on pose topic, marking test as successful."
             exit 0
           else
