@@ -59,7 +59,9 @@ jobs:
           ls
           source devel/setup.bash
           export QT_QPA_PLATFORM=offscreen
-          roslaunch mir_examples single_mir_600.launch &
+          #roslaunch mir_examples single_mir_600.launch &
+          roslaunch match_gazebo big_square.launch
+          roslaunch mur_launch_sim mur_620.launch 
           sleep 10  # Give some time for Gazebo and ROS nodes to initialize
 
       - name: Check for /pose topic data
