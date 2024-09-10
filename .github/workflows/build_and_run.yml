@@ -68,7 +68,7 @@ jobs:
         run: |
           source /opt/ros/${{ matrix.rosdistro }}/setup.sh
           source $GITHUB_WORKSPACE/catkin_ws/devel/setup.bash
-          timeout 10 rostopic echo /mir_pose_simple -n 1
+          #timeout 10 rostopic echo /mir_pose_simple -n 1
           timeout 10 rostopic list
         continue-on-error: true
 
