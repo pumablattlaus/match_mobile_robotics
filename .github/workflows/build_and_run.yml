@@ -62,7 +62,7 @@ jobs:
           export QT_QPA_PLATFORM=offscreen
           #roslaunch mir_examples single_mir_600.launch &
           # kill rosmaster       
-          killall -9 rosmaster         
+          #killall -9 rosmaster         
           roslaunch match_gazebo big_square.launch &
           sleep 5
           roslaunch mur_launch_sim mur_620.launch &
