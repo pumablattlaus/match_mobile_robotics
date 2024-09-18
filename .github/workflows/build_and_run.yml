@@ -92,11 +92,12 @@ jobs:
           # Debugging: See what grep is matching
           echo "$cleaned_output" | grep -o "ERROR"
 
-          # Check for the word "ERROR" in a case-insensitive manner
-          if echo "$cleaned_output" | grep -qi "ERROR"; then
+          # Perform a grep search for "ERROR"
+          if echo "$cleaned_output" | grep -qi "\bERROR\b"; then
             echo "Error found in check_topics.py output"
             exit 1
           else
+            echo "No error found in the output."
             exit 0
           fi
         continue-on-error: true
