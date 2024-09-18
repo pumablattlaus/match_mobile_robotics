@@ -68,7 +68,7 @@ jobs:
           roslaunch mur_launch_sim mur_620.launch robot_x:=1.0 robot_y:=2.0 &
           sleep 15  # Give some time for Gazebo and ROS nodes to initialize
 
-      - name: Check for /pose topic data
+      - name: Check rostopic list
         run: |
           source /opt/ros/${{ matrix.rosdistro }}/setup.sh
           source $GITHUB_WORKSPACE/catkin_ws/devel/setup.bash
@@ -96,6 +96,8 @@ jobs:
           if echo "$cleaned_output" | grep -qi "ERROR"; then
             echo "Error found in check_topics.py output"
             exit 1
+          else
+            exit 0
           fi
         continue-on-error: true
 
