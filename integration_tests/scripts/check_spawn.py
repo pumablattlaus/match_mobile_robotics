@@ -5,7 +5,7 @@ from geometry_msgs.msg import Pose
 
 # Define the correct pose
 correct_pose = Pose()
-correct_pose.position.x = 1.0
+correct_pose.position.x = 2.0
 correct_pose.position.y = 2.0
 correct_pose.position.z = 0.0
 correct_pose.orientation.x = 0.0

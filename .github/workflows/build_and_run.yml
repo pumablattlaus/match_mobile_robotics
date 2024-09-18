@@ -104,7 +104,7 @@ jobs:
 
 
           
-      - name: Check if topics exist
+      - name: Check spawn
         run: |
           source /opt/ros/${{ matrix.rosdistro }}/setup.sh
           source $GITHUB_WORKSPACE/catkin_ws/devel/setup.bash
@@ -129,6 +129,33 @@ jobs:
             exit 0
           fi
         continue-on-error: true
+
+      - name: Check homing
+        run: |
+          source /opt/ros/${{ matrix.rosdistro }}/setup.sh
+          source $GITHUB_WORKSPACE/catkin_ws/devel/setup.bash
+          # run node and check output for string "ERROR"
+          output=$(rosrun integration_tests check_homing.py)
+
+          # Print raw output for debugging
+          echo "Raw output: $output"
+
+          # Clean output of non-printable characters (optional)
+          cleaned_output=$(echo "$output" | tr -cd '[:print:]\n')
+
+          # Debugging: See what grep is matching
+          echo "$cleaned_output" | grep -o "ERROR"
+
+          # Perform a grep search for "ERROR"
+          if echo "$cleaned_output" | grep -qi "\bERROR\b"; then
+            echo "Error found in check_topics.py output"
+            exit 1
+          else
+            echo "No error found in the output."
+            exit 0
+          fi
+        continue-on-error: true
+
 
       - name: Evaluate test result
         run: |
