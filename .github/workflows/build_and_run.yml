@@ -82,10 +82,23 @@ jobs:
           source $GITHUB_WORKSPACE/catkin_ws/devel/setup.bash
           # run node and check output for string "ERROR"
           output=$(rosrun integration_tests check_topics.py)
-          if echo "$output" | grep -q "ERROR"; then
+
+          # Print raw output for debugging
+          echo "Raw output: $output"
+
+          # Clean output of non-printable characters (optional)
+          cleaned_output=$(echo "$output" | tr -cd '[:print:]\n')
+
+          # Debugging: See what grep is matching
+          echo "$cleaned_output" | grep -o "ERROR"
+
+          # Check for the word "ERROR" in a case-insensitive manner
+          if echo "$cleaned_output" | grep -qi "ERROR"; then
             echo "Error found in check_topics.py output"
             exit 1
           fi
+
+          
         #continue-on-error: true
 
       - name: Check spawn pose
