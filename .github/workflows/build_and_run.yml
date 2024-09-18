@@ -86,18 +86,19 @@ jobs:
             echo "Error found in check_topics.py output"
             exit 1
           fi
-        continue-on-error: true
+        #continue-on-error: true
 
       - name: Check spawn pose
         run: |
           source /opt/ros/${{ matrix.rosdistro }}/setup.sh
           source $GITHUB_WORKSPACE/catkin_ws/devel/setup.bash
-          rosrun integration_tests check_spawn.py
-          # test failed if there is an rospy logerror
-          if [ $? -ne 0 ]; then
+          # run node and check output for string "ERROR"
+          output=$(rosrun integration_tests check_spawn.py)
+          if echo "$output" | grep -q "ERROR"; then
+            echo "Error found in check_topics.py output"
             exit 1
           fi
-        continue-on-error: true
+        #continue-on-error: true
 
       - name: Evaluate test result
         run: |
