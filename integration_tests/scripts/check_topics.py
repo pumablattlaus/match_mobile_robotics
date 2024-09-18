@@ -16,7 +16,7 @@ class TopicChecker:
         rospy.sleep(1)  # Give some time for topics to receive data
         for topic, has_data in self.topic_data.items():
             if not has_data:
-                rospy.logerr(f"No data received on topic: {topic}")
+                rospy.logerr(f"ERROR: No data received on topic: {topic}")
                 return False
             else: 
                 rospy.loginfo(f"Data received on topic: {topic}")
