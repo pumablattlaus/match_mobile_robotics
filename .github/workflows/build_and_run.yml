@@ -81,7 +81,7 @@ jobs:
           source /opt/ros/${{ matrix.rosdistro }}/setup.sh
           source $GITHUB_WORKSPACE/catkin_ws/devel/setup.bash
           # run node and check output for string "ERROR"
-          export output=$(rosrun integration_tests check_topics.py)
+          output=$(rosrun integration_tests check_topics.py)
 
           # Print raw output for debugging
           echo "Raw output: $output"
