@@ -5,7 +5,7 @@ from std_msgs.msg import String
 
 class TopicChecker:
     def __init__(self):
-        self.topics = {'/mur620/UR10_r/global_tcp_pose','/mur620/UR10_r/global_tcp_pose','/mur620/UR10_l/wrench','/mur620/UR10_r/wrench', '/mur620/ground_truth','/mur620/mir_pose_simple','/mur620/mobile_base_controller/odom','/mur620/scan'}
+        self.topics = {'/mur620/UR10_r/global_tcp_pose','/mur620/UR10_l/global_tcp_pose','/mur620/UR10_l/wrench','/mur620/UR10_r/wrench', '/mur620/ground_truth','/mur620/mir_pose_simple','/mur620/mobile_base_controller/odom','/mur620/scan'}
         self.topic_data = {topic: False for topic in self.topics}
         self.subscribers = [rospy.Subscriber(topic, rospy.AnyMsg, self.callback, topic) for topic in self.topics]
 
