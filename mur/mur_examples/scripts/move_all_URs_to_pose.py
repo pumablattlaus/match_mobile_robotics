@@ -29,7 +29,7 @@ for robot_name in robot_names:
 
     # Move the right arm to the target pose
     right_arm_group.set_named_target(target_pose_name)
-    right_arm_group.go(wait=False)
+    right_arm_group.go(wait=True)
 
 # Shutdown the moveit_commander module
 moveit_commander.roscpp_shutdown()
