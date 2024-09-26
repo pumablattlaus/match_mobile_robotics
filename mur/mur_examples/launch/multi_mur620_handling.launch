@@ -40,6 +40,9 @@
         <arg name="tf_prefix"   default="$(arg robot4_name)" />       
     </include>
     
+    <!-- launch virtual object -->
+    <include file="$(find virtual_object)/launch/virtual_object.launch" />
+
     <!-- move robots to initial position -->
     <!-- <node name="move_all_URs_to_initial_pose" pkg="moveit_ros_visualization" type="moveit_run_path" args="$(find mur_examples)/path/move_all_URs_to_initial_pose.path" output="screen" /> -->
 
