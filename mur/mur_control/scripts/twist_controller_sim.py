@@ -33,6 +33,9 @@ class TwistControllerSim():
         # initialize the publisher for the joint velocities
         self.group_vel_controller_pub = rospy.Publisher(self.group_vel_controller_topic, Float64MultiArray, queue_size=1)
 
+        # initialize the subscriber for the commanded twist
+        rospy.Subscriber(self.commanded_twist_topic, Twist, self.commanded_twist_callback)
+
     # Compute the transformation matrix from the base frame to the end-effector frame
     def compute_jacobian(self):
         # get joint values from move_group
