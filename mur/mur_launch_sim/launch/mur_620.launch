@@ -14,10 +14,12 @@
 	<arg name="gazebo_joint_state_controller_config" default="$(find mur_control)/config/gazebo_joint_state_controller.yaml" />
 	<arg name="prefix" value="UR10" doc="Prefix for the UR16 links"/>
 	<arg name="enable_dual_collison_avoidance" default="true" doc="if dual arm collision avoidance should be enabled"/>
+	<arg name="use_inverse_differential_kinematics" default="true" doc="if inverse differential kinematics should be used to emulate a twist interface"/>
 
 	<!-- if an object should be grasped configure its model and joint names here -->
 	<arg name="object_name" default="object01" />
 	<arg name="object_link" default="link01" />
+	<arg name="node_start_delay" default="20.0" doc="used to delay nodes that should not start right away"/>
 
 	<group ns = "$(arg mur_ns)">
 		<!-- <rosparam file="$(find mur_moveit_config)/config/arm_controller.yaml" command="load" subst_value="true"/>  -->
@@ -116,7 +118,30 @@
 			</node>
 		</group>
 
+		<group if = "$(arg use_inverse_differential_kinematics)">
+			<node name="twist_controller_sim_r" pkg="mur_control" type="twist_controller_sim.py" output="screen" launch-prefix="bash -c 'sleep $(arg node_start_delay); $0 $@' " >
+				<param name="UR_prefix" value="$(arg prefix)_r" />
+				<param name="robot_name" value="$(arg mur_ns)" />
+				<param name="joint_state_topic" value="$(arg mur_ns)/joint_states" />
+				<param name="group_vel_controller_topic" value="/$(arg mur_ns)/$(arg prefix)_r/joint_group_vel_controller_r/unsafe/command" />
+				<param name="commanded_twist_topic" value="$(arg mur_ns)/$(arg prefix)_r/commanded_twist" />
+				<param name="move_group_name" value="UR_arm_r" />
+			</node>
+
+			<node name="twist_controller_sim_l" pkg="mur_control" type="twist_controller_sim.py" output="screen" launch-prefix="bash -c 'sleep $(arg node_start_delay); $0 $@' ">
+				<param name="UR_prefix" value="$(arg prefix)_l" />
+				<param name="robot_name" value="$(arg mur_ns)" />
+				<param name="joint_state_topic" value="$(arg mur_ns)/joint_states" />
+				<param name="group_vel_controller_topic" value="/$(arg mur_ns)/$(arg prefix)_l/joint_group_vel_controller_l/unsafe/command" />
+				<param name="commanded_twist_topic" value="$(arg mur_ns)/$(arg prefix)_l/commanded_twist" />
+				<param name="move_group_name" value="UR_arm_l" />
+			</node>
+		</group>
+
+
 	
 	</group> 
+
+
 
 </launch>
