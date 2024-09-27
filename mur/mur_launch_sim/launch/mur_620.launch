@@ -120,20 +120,16 @@
 
 		<group if = "$(arg use_inverse_differential_kinematics)">
 			<node name="twist_controller_sim_r" pkg="mur_control" type="twist_controller_sim.py" output="screen" launch-prefix="bash -c 'sleep $(arg node_start_delay); $0 $@' " >
-				<param name="UR_prefix" value="$(arg prefix)_r" />
 				<param name="robot_name" value="$(arg mur_ns)" />
-				<param name="joint_state_topic" value="$(arg mur_ns)/joint_states" />
-				<param name="group_vel_controller_topic" value="/$(arg mur_ns)/$(arg prefix)_r/joint_group_vel_controller_r/unsafe/command" />
-				<param name="commanded_twist_topic" value="$(arg mur_ns)/$(arg prefix)_r/commanded_twist" />
+				<param name="group_vel_controller_topic" value="joint_group_vel_controller_r/unsafe/command" />
+				<param name="commanded_twist_topic" value="$(arg prefix)_r/commanded_twist" />
 				<param name="move_group_name" value="UR_arm_r" />
 			</node>
 
 			<node name="twist_controller_sim_l" pkg="mur_control" type="twist_controller_sim.py" output="screen" launch-prefix="bash -c 'sleep $(arg node_start_delay); $0 $@' ">
-				<param name="UR_prefix" value="$(arg prefix)_l" />
 				<param name="robot_name" value="$(arg mur_ns)" />
-				<param name="joint_state_topic" value="$(arg mur_ns)/joint_states" />
-				<param name="group_vel_controller_topic" value="/$(arg mur_ns)/$(arg prefix)_l/joint_group_vel_controller_l/unsafe/command" />
-				<param name="commanded_twist_topic" value="$(arg mur_ns)/$(arg prefix)_l/commanded_twist" />
+				<param name="group_vel_controller_topic" value="joint_group_vel_controller_l/unsafe/command" />
+				<param name="commanded_twist_topic" value="$(arg prefix)_l/commanded_twist" />
 				<param name="move_group_name" value="UR_arm_l" />
 			</node>
 		</group>
