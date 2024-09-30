@@ -10,7 +10,8 @@
 	<arg name="global_planner" default="GlobalPlanner" />
 	<arg name="local_planner" default="DWAPlannerROS" />
 	<arg name="lift" default="true" doc="if prismatic lift joint is used"/>
-	<arg name="robot_urdf_path" value="$(find mur_description)/urdf/mur_620.gazebo.xacro use_lift:=$(arg lift)"/>
+	<arg name="simulate_camera" default="false" doc="if camera should be simulated"/>
+	<arg name="robot_urdf_path" value="$(find mur_description)/urdf/mur_620.gazebo.xacro use_lift:=$(arg lift) simulate_camera:=$(arg simulate_camera)"/>
 	<arg name="gazebo_joint_state_controller_config" default="$(find mur_control)/config/gazebo_joint_state_controller.yaml" />
 	<arg name="prefix" value="UR10" doc="Prefix for the UR16 links"/>
 	<arg name="enable_dual_collison_avoidance" default="true" doc="if dual arm collision avoidance should be enabled"/>

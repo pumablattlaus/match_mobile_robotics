@@ -3,6 +3,7 @@
 
 	<xacro:arg name="robot_namespace" default=''/>
 	<xacro:arg name="tf_prefix" default=''/>
+	<xacro:arg name="simulate_camera" default='false'/>
 	<xacro:arg name="use_lift" default='true'/>
 	<xacro:property name="use_lift" value="$(arg use_lift)"/>
 	<xacro:arg name="sim" default='true'/>
@@ -34,7 +35,7 @@
 	<!-- Init the MiR200 marco that is also used for the hardware -->
 	<xacro:mir_600 />
 	<!-- Init the MiR200 macro that includes all infos that Gazebo need to function -->
-	<xacro:mir_600_gazebo tf_prefix="$(arg tf_prefix)" robot_namespace="$(arg robot_namespace)"/>
+	<xacro:mir_600_gazebo tf_prefix="$(arg tf_prefix)" robot_namespace="$(arg robot_namespace)" simulate_camera="$(arg simulate_camera)"/>
 
 	<!-- Init the UR5 robot arm macro -->
 	<xacro:ur10e_robot prefix="UR10_l/" transmission_hw_interface="hardware_interface/VelocityJointInterface"/>
