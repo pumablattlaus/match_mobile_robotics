@@ -1,8 +1,8 @@
 <launch>
     <!-- Basic launch file for one robot in the match_world_common map-->
   
-    <include file="$(find match_gazebo)/launch/big_square.launch">
-    </include>
+    <!-- <include file="$(find match_gazebo)/launch/big_square.launch">
+    </include> -->
   
     <arg name="robot1_name"  default="mur620a"/>
     <arg name="robot2_name"  default="mur620b"/>
