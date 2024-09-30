@@ -26,7 +26,15 @@ rosrun mur_examples move_all_URs_to_pose.py
 The robots are moved using move_group. This may take a while.
 ![Alt text](mur_documentation/MuRs_in_handling_pose.png?raw=true "All MuRs in handling pose")
 
-4. Switch the robot to twist control
+4. Turn on controllers
+``` 
+roslaunch mur_control multi_decentralized_admittance_controller_sim.launch
+``` 
+Launch eight admittance controller nodes simulanously. Each robot receives its relative target pose through the controller launch.
+Check in RViz if the current pose roughly matches the target pose. It should look something like this:
+![Alt text](mur_documentation/RVIZ_ready.png?raw=true "All admittance controllers are running. Robots are almost in target pose.")
+
+5. Switch the robot to twist control
 ```
 rosrun mur_examples switch_URs_to_twist_control.py
 ```

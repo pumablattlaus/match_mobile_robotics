@@ -43,9 +43,23 @@
     <!-- launch virtual object -->
     <include file="$(find virtual_object)/launch/virtual_object.launch" />
 
+    <!-- set initial pose -->
+    <node
+        pkg="rostopic" type="rostopic" name="virtual_object_publisher" args="pub /virtual_object/set_pose geometry_msgs/PoseStamped '{
+          header: {
+            seq: 0,
+            stamp: { secs: 0, nsecs: 0 },
+            frame_id: ''
+          },
+          pose: {
+            position: { x: 0.0, y: 0.0, z: 1.5 },
+            orientation: { x: 0.0, y: 0.0, z: 0.0, w: 1.0 }
+          }
+        }'" launch-prefix="bash -c 'sleep 5; $0 $@'" />
+
     <!-- move robots to initial position -->
     <!-- <node name="move_all_URs_to_initial_pose" pkg="moveit_ros_visualization" type="moveit_run_path" args="$(find mur_examples)/path/move_all_URs_to_initial_pose.path" output="screen" /> -->
 
-     <node type="rviz" name="rviz_handling" pkg="rviz" args="-d $(find mur_examples)/rviz/multi_mur_handling.rviz" /> 
+    <node type="rviz" name="rviz_handling" pkg="rviz" args="-d $(find mur_examples)/rviz/multi_mur_handling.rviz" /> 
 
   </launch>
