@@ -15,3 +15,6 @@ roslaunch match_gazebo big_square.launch
 roslaunch mur_examples multi_mur620_handling.launch
 ``` 
 Make sure move_group is successfully loaded. Maybe you have to re-spawn the robots with gazebo running (delete them in gazebo and ctrl+c the launch file terminal). If move_group is successfull, the manipulators should all move to their home position.
+
+<!-- add image -->
+![Alt text](mur_documentation/murs_spawned.png?raw=true "Four MuRs spawned successfully")
