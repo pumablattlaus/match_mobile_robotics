@@ -46,6 +46,6 @@
     <!-- move robots to initial position -->
     <!-- <node name="move_all_URs_to_initial_pose" pkg="moveit_ros_visualization" type="moveit_run_path" args="$(find mur_examples)/path/move_all_URs_to_initial_pose.path" output="screen" /> -->
 
-     <!-- <node type="rviz" name="rviz_multi_mir" pkg="rviz" args="-d $(find mur_examples)/rviz/multi_mur_205_visualization.rviz" />  -->
+     <node type="rviz" name="rviz_handling" pkg="rviz" args="-d $(find mur_examples)/rviz/multi_mur_handling.rviz" /> 
 
   </launch>

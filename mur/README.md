@@ -21,7 +21,7 @@ Make sure move_group is successfully loaded. Maybe you have to re-spawn the robo
 
 3. Move the robots to their handling position
 ``` 
-roslaunch mur_examples multi_mur620_handling.launch
+rosrun mur_examples move_all_URs_to_pose.py
 ``` 
 The robots are moved using move_group. This may take a while.
 ![Alt text](mur_documentation/MuRs_in_handling_pose.png?raw=true "All MuRs in handling pose")
