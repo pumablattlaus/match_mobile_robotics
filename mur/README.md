@@ -2,6 +2,7 @@
 
 ## 📝 Table of Contents
 - [Setup Simulation](#setup_sim)
+- [Robot Control](#robot_control)
 
 
 ## 1. Setup Simulation <a name = "setup_sim"></a>
@@ -45,3 +46,23 @@ Note: The official UR ROS package does not currently support a twist controller 
 With the controllers running, the robots should move into their target positions as shown below:
 ![Alt text](mur_documentation/Controller_ready.png?raw=true "Controllers running. Handling simulation is fully setup")
 The setup is now complete, and the controllers are ready to accept commands.
+
+
+## 1. Control the Robots <a name = "robot_control"></a>
+
+Each robot is controlled by a decentralized admittance controller, and all controllers share the same reference frame: virtual_object/base_link. To control the robot formation, simply move the "virtual_object/base_link" by sending commands through the "/virtual_object/object_cmd_vel" twist interface.
+
+```
+rostopic pub /virtual_object/object_cmd_vel geometry_msgs/Twist "linear:
+  x: 0.0
+  y: 0.0
+  z: 0.05
+angular:
+  x: 0.0
+  y: 0.0
+  z: 0.0" -r10
+```
+You can also use one of the existing Lissajous trajectory publishers:
+```
+rosrun mur_examples lissajous_3D_combined_publisher.py
+```
