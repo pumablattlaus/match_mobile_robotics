@@ -8,33 +8,35 @@
     <arg name="robot2_name"  default="mur620b"/>
     <arg name="robot3_name"  default="mur620c"/>
     <arg name="robot4_name"  default="mur620d"/>
+    <arg name="node_start_delay" default="5.0" doc="used to delay nodes that should not start right away"/>
+
     
     <!-- spawn robots   -->
 
-    <include file="$(find mur_launch_sim)/launch/mur_620.launch" pass_all_args="true">
-        <arg name="robot_x"     default="-2.0" />
+    <include file="$(find mur_launch_sim)/launch/mur_620.launch">
+        <arg name="robot_x"     default="-2.3" />
         <arg name="robot_y"     default="-1.0" />
         <arg name="robot_yaw"   default="0.0" /> 
         <arg name="tf_prefix"   default="$(arg robot1_name)" />       
     </include>
 
       
-    <include file="$(find mur_launch_sim)/launch/mur_620.launch" pass_all_args="true">
-        <arg name="robot_x"     default="-2.0" />
+    <include file="$(find mur_launch_sim)/launch/mur_620.launch">
+        <arg name="robot_x"     default="-2.3" />
         <arg name="robot_y"     default="1.0" />
         <arg name="robot_yaw"   default="0.0" /> 
         <arg name="tf_prefix"   default="$(arg robot2_name)" />       
     </include> 
     
-    <include file="$(find mur_launch_sim)/launch/mur_620.launch"  pass_all_args="true">
-        <arg name="robot_x"     default="2.0" />
+    <include file="$(find mur_launch_sim)/launch/mur_620.launch">
+        <arg name="robot_x"     default="2.3" />
         <arg name="robot_y"     default="-1.0" />
         <arg name="robot_yaw"   default="3.14159265359 " /> 
         <arg name="tf_prefix"   default="$(arg robot3_name)" />       
     </include>
 
-    <include file="$(find mur_launch_sim)/launch/mur_620.launch"  pass_all_args="true">
-        <arg name="robot_x"     default="2.0" />
+    <include file="$(find mur_launch_sim)/launch/mur_620.launch">
+        <arg name="robot_x"     default="2.3" />
         <arg name="robot_y"     default="1.0" />
         <arg name="robot_yaw"   default="3.14159265359 " /> 
         <arg name="tf_prefix"   default="$(arg robot4_name)" />       
@@ -44,18 +46,7 @@
     <include file="$(find virtual_object)/launch/virtual_object.launch" />
 
     <!-- set initial pose -->
-    <node
-        pkg="rostopic" type="rostopic" name="virtual_object_publisher" args="pub /virtual_object/set_pose geometry_msgs/PoseStamped '{
-          header: {
-            seq: 0,
-            stamp: { secs: 0, nsecs: 0 },
-            frame_id: ''
-          },
-          pose: {
-            position: { x: 0.0, y: 0.0, z: 1.5 },
-            orientation: { x: 0.0, y: 0.0, z: 0.0, w: 1.0 }
-          }
-        }'" launch-prefix="bash -c 'sleep 5; $0 $@'" />
+    <node type="set_virtual_object_pose.py" name="set_virtual_object_pose" pkg="mur_examples" launch-prefix="bash -c 'sleep $(arg node_start_delay); $0 $@' " /> 
 
     <!-- move robots to initial position -->
     <!-- <node name="move_all_URs_to_initial_pose" pkg="moveit_ros_visualization" type="moveit_run_path" args="$(find mur_examples)/path/move_all_URs_to_initial_pose.path" output="screen" /> -->

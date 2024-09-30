@@ -53,7 +53,7 @@ class LissajousResponsePublisher:
         seq = 0
         pose_stamped = PoseStamped()
         pose_stamped.header.frame_id = "map"
-        for t in range(0, int(30 / self.velocity)):
+        for t in range(0, int(3 / self.velocity)):
             pose_stamped.header.stamp = rospy.Time.now()
             pose_stamped.pose.position.x = self.a * math.sin(self.omega_x * t * self.velocity) + self.delta_x + object_pose.pose.position.x
             pose_stamped.pose.position.y = self.b * math.sin(self.omega_y * t * self.velocity) + self.delta_y + object_pose.pose.position.y
