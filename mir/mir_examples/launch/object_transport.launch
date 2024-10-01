@@ -49,12 +49,6 @@
     <!-- launch virtual object -->
     <include file="$(find virtual_leader)/launch/virtual_leader.launch" />
 
-    <!-- set initial pose -->
-    <!-- <node type="set_virtual_object_pose.py" name="set_virtual_object_pose" pkg="mur_examples" launch-prefix="bash -c 'sleep $(arg node_start_delay); $0 $@' " />  -->
-
-    <!-- move robots to initial position -->
-    <!-- <node name="move_all_URs_to_initial_pose" pkg="moveit_ros_visualization" type="moveit_run_path" args="$(find mur_examples)/path/move_all_URs_to_initial_pose.path" output="screen" /> -->
-
     <node type="rviz" name="rviz_handling" pkg="rviz" args="-d $(find mir_examples)/rviz/object_transport.rviz" /> 
 
   </launch>

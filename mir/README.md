@@ -47,3 +47,19 @@ roslaunch formation_controller multi_robot_formation_control_sim.launch
 If everything is set up correctly, the robots should appear as shown in the image below::
 ![Alt text](mir_documentation/RVIZ_formation_controller_running.png?raw=true "All leader-follower controllers are running. Formation is ready to move")
 
+### Control the Formation
+
+To control the robot formation, you only need to move the virtual leader. This can be done either by using the "rqt_robot_steering" tool or by running a predefined node.
+
+#### Option 1: Using "rqt_robot_steering"
+```
+rosrun rqt_robot_steering rqt_robot_steering
+```
+Then, set the target topic to "/virtual_leader/cmd_vel" to control the virtual leader's movement.
+
+#### Option 2: Using a Pre-Existing Node
+
+If you prefer to use a pre-existing node to automate the control, run:
+```
+rosrun mir_examples lissajous_response_pub.py
+```
