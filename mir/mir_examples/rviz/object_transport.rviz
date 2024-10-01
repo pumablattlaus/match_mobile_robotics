@@ -6,6 +6,10 @@ Panels:
       Expanded:
         - /Global Options1
         - /Status1
+        - /mur620a1
+        - /mur620b1
+        - /mur620c1
+        - /mur620d1
         - /TF1
         - /TF1/Frames1
       Splitter Ratio: 0.5
@@ -63,7 +67,7 @@ Visualization Manager:
       Unreliable: false
       Use Timestamp: false
       Value: true
-    - Alpha: 1
+    - Alpha: 0.20000000298023224
       Class: rviz/RobotModel
       Collision Enabled: false
       Enabled: true
@@ -224,7 +228,7 @@ Visualization Manager:
       Update Interval: 0
       Value: true
       Visual Enabled: true
-    - Alpha: 1
+    - Alpha: 0.20000000298023224
       Class: rviz/RobotModel
       Collision Enabled: false
       Enabled: true
@@ -385,7 +389,7 @@ Visualization Manager:
       Update Interval: 0
       Value: true
       Visual Enabled: true
-    - Alpha: 1
+    - Alpha: 0.20000000298023224
       Class: rviz/RobotModel
       Collision Enabled: false
       Enabled: true
@@ -546,7 +550,7 @@ Visualization Manager:
       Update Interval: 0
       Value: true
       Visual Enabled: true
-    - Alpha: 1
+    - Alpha: 0.20000000298023224
       Class: rviz/RobotModel
       Collision Enabled: false
       Enabled: true
@@ -716,6 +720,8 @@ Visualization Manager:
         All Enabled: false
         map:
           Value: false
+        mur620a/actual_pose:
+          Value: true
         mur620a/back_laser_link:
           Value: false
         mur620a/base_footprint:
@@ -776,12 +782,16 @@ Visualization Manager:
           Value: false
         mur620a/surface:
           Value: false
+        mur620a/target_pose_control:
+          Value: true
         mur620a/top_module:
           Value: false
         mur620a/us_1_frame:
           Value: false
         mur620a/us_2_frame:
           Value: false
+        mur620b/actual_pose:
+          Value: true
         mur620b/back_laser_link:
           Value: false
         mur620b/base_footprint:
@@ -842,12 +852,16 @@ Visualization Manager:
           Value: false
         mur620b/surface:
           Value: false
+        mur620b/target_pose_control:
+          Value: true
         mur620b/top_module:
           Value: false
         mur620b/us_1_frame:
           Value: false
         mur620b/us_2_frame:
           Value: false
+        mur620c/actual_pose:
+          Value: true
         mur620c/back_laser_link:
           Value: false
         mur620c/base_footprint:
@@ -908,12 +922,16 @@ Visualization Manager:
           Value: false
         mur620c/surface:
           Value: false
+        mur620c/target_pose_control:
+          Value: true
         mur620c/top_module:
           Value: false
         mur620c/us_1_frame:
           Value: false
         mur620c/us_2_frame:
           Value: false
+        mur620d/actual_pose:
+          Value: true
         mur620d/back_laser_link:
           Value: false
         mur620d/base_footprint:
@@ -974,6 +992,8 @@ Visualization Manager:
           Value: false
         mur620d/surface:
           Value: false
+        mur620d/target_pose_control:
+          Value: true
         mur620d/top_module:
           Value: false
         mur620d/us_1_frame:
@@ -985,13 +1005,15 @@ Visualization Manager:
         virtual_leader/odom:
           Value: false
       Marker Alpha: 1
-      Marker Scale: 1
+      Marker Scale: 1.2000000476837158
       Name: TF
       Show Arrows: true
       Show Axes: true
       Show Names: true
       Tree:
         map:
+          mur620a/actual_pose:
+            {}
           mur620a/odom:
             mur620a/base_footprint:
               mur620a/base_link:
@@ -1043,6 +1065,10 @@ Visualization Manager:
                   {}
                 mur620a/us_2_frame:
                   {}
+          mur620a/target_pose_control:
+            {}
+          mur620b/actual_pose:
+            {}
           mur620b/odom:
             mur620b/base_footprint:
               mur620b/base_link:
@@ -1094,6 +1120,10 @@ Visualization Manager:
                   {}
                 mur620b/us_2_frame:
                   {}
+          mur620b/target_pose_control:
+            {}
+          mur620c/actual_pose:
+            {}
           mur620c/odom:
             mur620c/base_footprint:
               mur620c/base_link:
@@ -1145,6 +1175,10 @@ Visualization Manager:
                   {}
                 mur620c/us_2_frame:
                   {}
+          mur620c/target_pose_control:
+            {}
+          mur620d/actual_pose:
+            {}
           mur620d/odom:
             mur620d/base_footprint:
               mur620d/base_link:
@@ -1196,6 +1230,8 @@ Visualization Manager:
                   {}
                 mur620d/us_2_frame:
                   {}
+          mur620d/target_pose_control:
+            {}
           virtual_leader/odom:
             virtual_leader/base_footprint:
               {}
@@ -1229,7 +1265,7 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz/Orbit
-      Distance: 65.38160705566406
+      Distance: 45.08442306518555
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.05999999865889549
         Stereo Focal Distance: 1
@@ -1237,17 +1273,17 @@ Visualization Manager:
         Value: false
       Field of View: 0.7853981852531433
       Focal Point:
-        X: 17.36494255065918
-        Y: 21.374998092651367
-        Z: -27.393299102783203
+        X: 39.68773651123047
+        Y: 15.770408630371094
+        Z: -30.62898826599121
       Focal Shape Fixed Size: true
       Focal Shape Size: 0.05000000074505806
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.009999999776482582
-      Pitch: 0.785398006439209
+      Pitch: 0.8803979158401489
       Target Frame: <Fixed Frame>
-      Yaw: 0.785398006439209
+      Yaw: 1.5003973245620728
     Saved: ~
 Window Geometry:
   Displays:

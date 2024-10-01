@@ -23,13 +23,26 @@ Use your standard build system to build the downloaded packages
 
 
 
-## 3. Example - Collaborative Object Transport
-Launch the object transport example launch
+## 3. Example - Launch the Cooperative Object Transport Example
+To begin, launch the object transport example with the following command:
 ```
 roslaunch mir_examples object_transport.launch
 ```
 
-Move the "virtual_leader/base_link" to the correct position. The "virtual_leader/base_link" serves as a reference for the other robots and should ideally be in the middle between all robots. The "virtual_leader/base_link" can be moved using "rqt_robot_steer" on the "/virtual_leader/cmd_vel" topic or by publishing the desired pose on "/virtual_leader/set_pose". In this case we will set "virtual_leader/base_link" to be 1 m in front and to the side of robot mur620a using this script: 
+Next, move the "virtual_leader/base_link" to the correct position. The "virtual_leader/base_link" serves as a reference point for the other robots and should ideally be positioned in the middle of the formation, equidistant between all robots.
+
+You can move the "virtual_leader/base_link" using "rqt_robot_steer" on the "/virtual_leader/cmd_vel" topic, or by publishing the desired pose on the "/virtual_leader/set_pose topic". In this example, we’ll position the "virtual_leader/base_link" 1 meter in front and to the side of robot "mur620a" using the following script:
+
 ```
 roslaunch virtual_leader set_leader_pose.launch relative_pose:=[1.0,1.0,0.0] robot_pose_topic:=/mur620a/mir_pose_stamped_simple
 ```
+
+### Start the Leader-Follower Formation Controllers
+
+Once the leader's position is set, you can start the leader-follower formation controllers. Each robot's controller will receive the position of the "virtual_leader/base_link" and a unique "relative_pose" that it must maintain relative to the leader. When you launch the controllers, the robots will slightly adjust their positions to match their assigned target poses.
+
+```
+roslaunch formation_controller multi_robot_formation_control_sim.launch
+```
+If everything is set up correctly, the robots should appear as shown in the image below::
+![Alt text](mir_documentation/RVIZ_ready.png?raw=true "All leader-follower controllers are running. Formation is ready to move")
