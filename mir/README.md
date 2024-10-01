@@ -45,4 +45,5 @@ Once the leader's position is set, you can start the leader-follower formation c
 roslaunch formation_controller multi_robot_formation_control_sim.launch
 ```
 If everything is set up correctly, the robots should appear as shown in the image below::
-![Alt text](mir_documentation/RVIZ_ready.png?raw=true "All leader-follower controllers are running. Formation is ready to move")
+![Alt text](mir_documentation/RVIZ_formation_controller_running.png?raw=true "All leader-follower controllers are running. Formation is ready to move")
+
