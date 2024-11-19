@@ -96,8 +96,8 @@
 	</joint>
 
 	<xacro:if value="${sim}">
-		<xacro:schunk_emh_rp_045 tf_prefix="UR10_r"	tool_link="UR10_r/flange"/>
-		<xacro:schunk_emh_rp_045 tf_prefix="UR10_l"	tool_link="UR10_l/flange"/>
+		<!-- <xacro:schunk_emh_rp_045 tf_prefix="UR10_r"	tool_link="UR10_r/flange"/>
+		<xacro:schunk_emh_rp_045 tf_prefix="UR10_l"	tool_link="UR10_l/flange"/> -->
 		<xacro:keyence_lj_x tf_prefix="UR10_r"	tool_link="UR10_r/flange"/>
 		<xacro:keyence_lj_x tf_prefix="UR10_l"	tool_link="UR10_l/flange"/>
 	</xacro:if>
