@@ -61,10 +61,10 @@
 				<scan>
 				<!-- Horizontal range parameters -->
 				<horizontal>
-					<samples>100</samples> <!-- Number of laser beams -->
+					<samples>1000</samples> <!-- Number of laser beams -->
 					<resolution>1</resolution>
-					<min_angle>-0.5</min_angle> <!-- Start angle in radians -->
-					<max_angle>0.5</max_angle> <!-- End angle in radians -->
+					<min_angle>-0.27317277996474193</min_angle> <!-- Start angle in radians -->
+					<max_angle>0.27317277996474193</max_angle> <!-- End angle in radians -->
 				</horizontal>
 				<!-- Vertical range parameters (set min and max equal for a line) -->
 				<vertical>
@@ -74,19 +74,19 @@
 				</vertical>
 				</scan>
 				<range>
-				<min>0.1</min> <!-- Minimum range in meters -->
-				<max>10.0</max> <!-- Maximum range in meters -->
-				<resolution>0.01</resolution> <!-- Range resolution -->
+				<min>0.285</min> <!-- Minimum range in meters -->
+				<max>0.600</max> <!-- Maximum range in meters -->
+				<resolution>0.0001707329874779637</resolution> <!-- Range resolution -->
 				</range>
 				<noise>
 				<type>gaussian</type>
-				<mean>0.0</mean>
-				<stddev>0.01</stddev>
+				<mean>0.00005</mean>
+				<stddev>0.0005</stddev>
 				</noise>
 			</ray>
 			<plugin name="gazebo_ros_laser" filename="libgazebo_ros_laser.so">
 				<topicName>${tf_prefix}/line_laser/scan</topicName> <!-- ROS topic -->
-				<frameName>${tf_prefix}/gripper</frameName> <!-- Frame for the laser -->
+				<frameName>mur620a/${tf_prefix}/gripper</frameName> <!-- Frame for the laser -->
 			</plugin>
 			</sensor>
 		</gazebo>
