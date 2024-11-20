@@ -8,6 +8,8 @@
 	<xacro:property name="use_lift" value="$(arg use_lift)"/>
 	<xacro:arg name="sim" default='true'/>
 	<xacro:property name="sim" value="$(arg sim)"/>
+	<xacro:arg name="tool" default='schunk_emh_rp_045'/>
+	<xacro:property name="tool" value="$(arg tool)"/>
 	<xacro:arg name="ur_l_xyz" default='0 0 0'/>
 	<xacro:arg name="ur_l_rpy" default='0 0 0'/>
 	<xacro:property name="ur_l_xyz" value="$(arg ur_l_xyz)"/>
@@ -96,10 +98,14 @@
 	</joint>
 
 	<xacro:if value="${sim}">
-		<!-- <xacro:schunk_emh_rp_045 tf_prefix="UR10_r"	tool_link="UR10_r/flange"/>
-		<xacro:schunk_emh_rp_045 tf_prefix="UR10_l"	tool_link="UR10_l/flange"/> -->
-		<xacro:keyence_lj_x tf_prefix="UR10_r"	tool_link="UR10_r/flange"/>
-		<xacro:keyence_lj_x tf_prefix="UR10_l"	tool_link="UR10_l/flange"/>
+		<xacro:if value="${tool == 'schunk_emh_rp_045'}">
+			<xacro:schunk_emh_rp_045 tf_prefix="UR10_r"	tool_link="UR10_r/flange"/>
+			<xacro:schunk_emh_rp_045 tf_prefix="UR10_l"	tool_link="UR10_l/flange"/>
+		</xacro:if>
+		<xacro:if value="${tool == 'keyence_line_laser'}">
+			<xacro:keyence_lj_x tf_prefix="UR10_r"	tool_link="UR10_r/flange"/>
+			<xacro:keyence_lj_x tf_prefix="UR10_l"	tool_link="UR10_l/flange"/>
+		</xacro:if>
 	</xacro:if>
 
     <!-- <xacro:include filename="$(find print_sim)/urdf/keyence_line_laser.gazebo.xacro" /> 
